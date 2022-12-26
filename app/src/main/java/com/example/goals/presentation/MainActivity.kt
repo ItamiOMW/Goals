@@ -1,4 +1,4 @@
-package com.example.goals
+package com.example.goals.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

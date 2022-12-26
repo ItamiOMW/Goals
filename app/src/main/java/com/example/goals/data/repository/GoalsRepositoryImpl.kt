@@ -4,8 +4,9 @@ import com.example.goals.data.local.GoalsDao
 import com.example.goals.domain.models.Goal
 import com.example.goals.domain.repository.GoalsRepository
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class GoalsRepositoryImpl(
+class GoalsRepositoryImpl @Inject constructor (
     private val dao: GoalsDao,
 ) : GoalsRepository {
 
