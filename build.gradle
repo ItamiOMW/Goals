@@ -12,6 +12,7 @@ buildscript {
         hilt_compiler_version = '1.0.0'
         hilt_nav_compose_version = '1.0.0'
         room_version = '2.4.3'
+        gson_version = '2.10'
     }
     dependencies {
         classpath "com.google.dagger:hilt-android-gradle-plugin:2.40.5"

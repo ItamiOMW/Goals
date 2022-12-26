@@ -2,12 +2,17 @@ package com.example.goals.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.example.goals.data.local.converters.SubGoalConverter
 import com.example.goals.domain.models.Goal
 import com.example.goals.domain.models.Task
 
 @Database(
     entities = [Goal::class, Task::class],
     version = 2
+)
+@TypeConverters(
+    SubGoalConverter::class
 )
 abstract class GoalsDatabase : RoomDatabase() {
 
