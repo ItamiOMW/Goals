@@ -13,6 +13,9 @@ interface GoalsDao {
     @Query("SELECT * FROM goals_table")
     fun getGoals(): Flow<List<Goal>>
 
+    @Query("SELECT * FROM goals_table WHERE id=:id LIMIT 1")
+    suspend fun getGoalById(id: Int): Goal?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addGoal(goal: Goal)
 
