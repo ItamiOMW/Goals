@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.goals"
-        minSdk 21
+        minSdk 26
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -67,6 +67,7 @@ dependencies {
     //Compose dependencies
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$compose_lifecycle_viewmodel_version"
     implementation "androidx.compose.material:material-icons-extended:$compose_material_icons_version"
+    implementation("androidx.navigation:navigation-compose:$compose_nav_version")
 
     //Dagger-Hilt
     implementation "com.google.dagger:hilt-android:$dagger_hilt_version"

@@ -4,6 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.goals.data.local.converters.SubGoalConverter
+import com.example.goals.data.local.converters.SubTaskConverter
 import com.example.goals.domain.models.Goal
 import com.example.goals.domain.models.Task
 
@@ -12,7 +13,8 @@ import com.example.goals.domain.models.Task
     version = 2
 )
 @TypeConverters(
-    SubGoalConverter::class
+    SubGoalConverter::class,
+    SubTaskConverter::class
 )
 abstract class GoalsDatabase : RoomDatabase() {
 

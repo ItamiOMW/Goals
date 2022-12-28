@@ -1,4 +1,4 @@
-package com.example.goals.ui.theme
+package com.example.goals.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
@@ -14,3 +14,5 @@ val BabyBlue = Color(0xff81deea)
 val Violet = Color(0xffcf94da)
 val LightGreen = Color(0xffe7ed9b)
 val LightBlue = Color(0xFFD7E8DE)
+val Blue = Color(0xFF5199FF)
+val Gray = Color(0xFF939598)

@@ -10,8 +10,8 @@ data class Goal(
     val content: String,
     val subGoals: List<SubGoal>,
     val isReached: Boolean,
-    val startTimestamp: Long,
-    val endTimestamp: Long,
+    val startDate: Long,
+    val endDate: Long,
     val color: Int,
     @PrimaryKey(autoGenerate = true)
     val id: Int = UNKNOWN_ID,
