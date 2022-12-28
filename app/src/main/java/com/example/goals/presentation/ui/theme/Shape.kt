@@ -1,4 +1,4 @@
-package com.example.goals.ui.theme
+package com.example.goals.presentation.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

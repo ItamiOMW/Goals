@@ -1,6 +1,6 @@
 package com.example.goals.domain.models
 
-data class SubGoal(
+data class SubTask(
     val title: String,
     val isCompleted: Boolean,
 )

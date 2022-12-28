@@ -8,8 +8,12 @@ import com.example.goals.utils.UNKNOWN_ID
 data class Task(
     val title: String,
     val content: String,
-    val color: Int,
-    val scheduledDateTime: Long,
+    val colorId: Int,
+    val scheduledDate: Long,
+    val scheduledTimeStart: Long,
+    val scheduledTimeEnd: Long,
+    val isCompleted: Boolean,
+    val subTasks: List<SubTask>,
     @PrimaryKey(autoGenerate = true)
     val id: Int = UNKNOWN_ID,
 )

@@ -7,13 +7,14 @@ buildscript {
         compose_material_version = '1.3.1'
         compose_lifecycle_viewmodel_version = '2.5.1'
         compose_material_icons_version = '1.3.1'
-        dagger_hilt_version = '2.40.5'
+        dagger_hilt_version = '2.41'
         hilt_lifecycle_viewmodel_version = '1.0.0-alpha03'
         hilt_compiler_version = '1.0.0'
         hilt_nav_compose_version = '1.0.0'
         room_version = '2.4.3'
         gson_version = '2.10'
         splash_screen_api_version = '1.0.0'
+        compose_nav_version = '2.5.3'
     }
     dependencies {
         classpath "com.google.dagger:hilt-android-gradle-plugin:2.40.5"

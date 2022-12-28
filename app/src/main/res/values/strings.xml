@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Goals</string>
+    <string name="ic_time">Icon Time</string>
+    <string name="checkbox">Checkbox</string>
+    <string name="no_scheduled_todays_tasks">No scheduled tasks for today</string>
+    <string name="tasks_upcoming">TASKS UPCOMING</string>
 </resources>
