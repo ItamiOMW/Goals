@@ -8,7 +8,9 @@ interface TasksRepository {
 
     fun getTasks(): Flow<List<Task>>
 
-    fun getTasksByDate(date: Long): Flow<List<Task>>
+    fun getTasksByDate(date: String): Flow<List<Task>>
+
+    fun getUncompletedTasksByDate(date: String): Flow<List<Task>>
 
     suspend fun getTaskById(id: Int): Task?
 

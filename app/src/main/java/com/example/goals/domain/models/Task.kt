@@ -9,7 +9,7 @@ data class Task(
     val title: String,
     val content: String,
     val colorId: Int,
-    val scheduledDate: Long,
+    val scheduledDate: String,
     val scheduledTimeStart: Long,
     val scheduledTimeEnd: Long,
     val isCompleted: Boolean,
