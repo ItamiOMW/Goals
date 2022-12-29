@@ -88,10 +88,10 @@ fun TodaysTasks(
                 items(state.todaysUncompletedTasks.size) { i ->
                     TaskBigCard(
                         task = state.todaysUncompletedTasks[i],
-                        onSubTaskClick = { subTask, task ->
+                        onSubTaskIconCheckClick = { subTask, task ->
                             viewModel.onEvent(HomeEvent.OnCompleteSubTask(task, subTask))
                         },
-                        onTaskClick = { task ->
+                        onTaskIconCheckClick = { task ->
                             viewModel.onEvent(HomeEvent.OnCompleteTask(task))
                         }
                     )

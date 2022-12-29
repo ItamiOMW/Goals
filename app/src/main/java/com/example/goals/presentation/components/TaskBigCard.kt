@@ -31,8 +31,8 @@ import com.example.goals.utils.toTimeString
 fun TaskBigCard(
     modifier: Modifier = Modifier,
     task: Task,
-    onSubTaskClick: (SubTask, Task) -> Unit,
-    onTaskClick: (Task) -> Unit,
+    onSubTaskIconCheckClick: (SubTask, Task) -> Unit,
+    onTaskIconCheckClick: (Task) -> Unit,
 ) {
     Box(modifier = modifier
         .padding(15.dp)
@@ -54,7 +54,7 @@ fun TaskBigCard(
                         .size(20.dp)
                         .align(Alignment.CenterVertically)
                         .clickable {
-                            onTaskClick(task)
+                            onTaskIconCheckClick(task)
                         }
                 )
                 Spacer(modifier = Modifier.width(10.dp))
@@ -101,7 +101,7 @@ fun TaskBigCard(
             ) {
                 task.subTasks.forEach { subTask ->
                     SubTask(subTask = subTask, onCheckBoxClick = { clickedSubTask ->
-                        onSubTaskClick(clickedSubTask, task)
+                        onSubTaskIconCheckClick(clickedSubTask, task)
                     })
                 }
             }

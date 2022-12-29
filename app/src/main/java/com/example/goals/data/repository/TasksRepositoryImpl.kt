@@ -15,8 +15,12 @@ class TasksRepositoryImpl @Inject constructor(
         return dao.getTasks()
     }
 
-    override fun getTasksByDate(date: Long): Flow<List<Task>> {
+    override fun getTasksByDate(date: String): Flow<List<Task>> {
         return dao.getTasksByDate(date)
+    }
+
+    override fun getUncompletedTasksByDate(date: String): Flow<List<Task>> {
+        return dao.getUncompletedTasksByDate(date)
     }
 
     override suspend fun getTaskById(id: Int): Task? {

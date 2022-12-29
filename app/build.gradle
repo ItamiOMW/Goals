@@ -87,4 +87,10 @@ dependencies {
     //Splash Screen API
     implementation("androidx.core:core-splashscreen:$splash_screen_api_version")
 
+    //Date/Time picker dialogs
+    implementation "io.github.vanpra.compose-material-dialogs:datetime:$datetime_dialogs_version"
+
+    //Calendar
+    implementation("com.himanshoe:kalendar:$calendar_kalendar_version")
+
 }

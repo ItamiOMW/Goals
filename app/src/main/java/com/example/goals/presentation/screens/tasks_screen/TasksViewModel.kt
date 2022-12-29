@@ -1,4 +1,4 @@
-package com.example.goals.presentation.screens.home_screen
+package com.example.goals.presentation.screens.tasks_screen
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -8,52 +8,51 @@ import androidx.lifecycle.viewModelScope
 import com.example.goals.domain.models.SubTask
 import com.example.goals.domain.models.Task
 import com.example.goals.domain.repository.TasksRepository
-import com.example.goals.utils.getCurrentDateString
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
-    private val tasksRepository: TasksRepository,
+class TasksViewModel @Inject constructor(
+    private val repository: TasksRepository,
 ) : ViewModel() {
 
-    private var _state by mutableStateOf(HomeState())
-    val state: HomeState
+    private var _state by mutableStateOf(TasksState())
+    val state: TasksState
         get() = _state
 
 
-    init {
-        getTodaysUncompletedTasks(getCurrentDateString())
-    }
-
-    fun onEvent(event: HomeEvent) {
+    fun onEvent(event: TasksEvent) {
         when (event) {
-            is HomeEvent.OnCompleteTask -> {
-                completeTask(event.task)
+            is TasksEvent.GetTasksByDate -> {
+                _state = state.copy(date = event.date)
+                getTasks(event.date)
             }
-            is HomeEvent.OnCompleteSubTask -> {
+            is TasksEvent.OnCompleteSubTask -> {
                 completeSubTask(event.subTask, event.task)
+            }
+            is TasksEvent.OnCompleteTask -> {
+                completeTask(event.task)
             }
         }
     }
 
     private fun completeTask(task: Task) {
         viewModelScope.launch {
-            tasksRepository.completeTask(task)
+            repository.completeTask(task)
         }
     }
 
     private fun completeSubTask(subTask: SubTask, task: Task) {
         viewModelScope.launch {
-            tasksRepository.completeSubTask(subTask, task)
+            repository.completeSubTask(subTask, task)
         }
     }
 
-    private fun getTodaysUncompletedTasks(date: String) {
+    private fun getTasks(date: String) {
         viewModelScope.launch {
-            tasksRepository.getTasksByDate(date).collect { list ->
-                _state = state.copy(todaysUncompletedTasks = list)
+            repository.getTasksByDate(date).collect { list ->
+                _state = state.copy(listTasksByDate = list)
             }
         }
     }
