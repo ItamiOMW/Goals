@@ -12,7 +12,7 @@ data class Goal(
     val isReached: Boolean,
     val startDate: String,
     val endDate: String,
-    val color: Int,
+    val colorId: Int,
     @PrimaryKey(autoGenerate = true)
     val id: Int = UNKNOWN_ID,
 )

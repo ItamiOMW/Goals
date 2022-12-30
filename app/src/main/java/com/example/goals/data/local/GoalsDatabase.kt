@@ -10,7 +10,8 @@ import com.example.goals.domain.models.Task
 
 @Database(
     entities = [Goal::class, Task::class],
-    version = 3
+    version = 4,
+    exportSchema = false
 )
 @TypeConverters(
     SubGoalConverter::class,

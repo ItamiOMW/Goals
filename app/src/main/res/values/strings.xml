@@ -4,4 +4,9 @@
     <string name="checkbox">Checkbox</string>
     <string name="no_scheduled_todays_tasks">No scheduled tasks for today</string>
     <string name="tasks_upcoming">TASKS UPCOMING</string>
+    <string name="completed">completed</string>
+    <string name="goals">GOALS</string>
+    <string name="of">of</string>
+    <string name="no_goals">No goals, it\'s time to set a couple</string>
+    <string name="goals_title">Goals</string>
 </resources>
