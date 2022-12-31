@@ -1,9 +1,6 @@
 package com.example.goals.presentation.components
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -23,16 +20,16 @@ import com.example.goals.presentation.ui.theme.PurpleLight
 
 @Composable
 fun BottomNavigationBar(
-    items: List<BottomNavItem>,
+    items: List<NavigationItem>,
     navController: NavController,
     modifier: Modifier = Modifier,
-    onItemClick: (BottomNavItem) -> Unit,
+    onItemClick: (NavigationItem) -> Unit,
 ) {
     val backstackEntry = navController.currentBackStackEntryAsState()
     BottomNavigation(
-        modifier = modifier,
+        modifier = modifier
+            .clip(RoundedCornerShape(25.dp, 25.dp, 0.dp, 0.dp)),
         backgroundColor = GrayShadeLight,
-        elevation = 5.dp
     ) {
         items.forEach { item ->
             val selected = item.route == backstackEntry.value?.destination?.route
@@ -43,7 +40,7 @@ fun BottomNavigationBar(
                 unselectedContentColor = Gray,
                 icon = {
                     Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
+                        horizontalAlignment = Alignment.Start,
                         verticalArrangement = Arrangement.Center
                     ) {
                         if (item.badgeCount > 0) {
@@ -51,9 +48,6 @@ fun BottomNavigationBar(
                                 badge = {
                                     Badge { Text(text = item.badgeCount.toString()) }
                                 },
-                                modifier = Modifier
-                                    .clip(RoundedCornerShape(10.dp))
-                                    .padding(10.dp)
                             ) {
                                 Icon(
                                     painter = painterResource(id = item.iconId),
@@ -70,7 +64,7 @@ fun BottomNavigationBar(
                             )
                         }
                     }
-                }
+                },
             )
         }
     }

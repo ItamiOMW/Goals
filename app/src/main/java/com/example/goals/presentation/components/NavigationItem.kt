@@ -2,7 +2,7 @@ package com.example.goals.presentation.components
 
 import androidx.annotation.DrawableRes
 
-data class BottomNavItem(
+data class NavigationItem(
     val name: String,
     val route: String,
     @DrawableRes
