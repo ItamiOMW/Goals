@@ -10,7 +10,7 @@ import com.example.goals.presentation.screens.add_edit_task_screen.AddEditTaskSc
 import com.example.goals.presentation.screens.goals_screen.GoalsScreen
 import com.example.goals.presentation.screens.home_screen.HomeScreen
 import com.example.goals.presentation.screens.notes_screen.NotesScreen
-import com.example.goals.presentation.screens.home_screen.tasks_screen.TasksScreen
+import com.example.goals.presentation.screens.tasks_screen.TasksScreen
 
 
 @Composable

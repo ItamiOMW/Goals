@@ -1,4 +1,4 @@
-package com.example.goals.presentation.screens.home_screen.tasks_screen
+package com.example.goals.presentation.screens.tasks_screen
 
 import android.util.Log
 import androidx.compose.foundation.layout.Box

@@ -1,4 +1,4 @@
-package com.example.goals.presentation.screens.home_screen.tasks_screen
+package com.example.goals.presentation.screens.tasks_screen
 
 import com.example.goals.domain.models.Task
 import com.example.goals.utils.getCurrentDateString
