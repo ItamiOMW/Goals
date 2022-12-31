@@ -9,4 +9,6 @@
     <string name="of">of</string>
     <string name="no_goals">No goals, it\'s time to set a couple</string>
     <string name="goals_title">Goals</string>
+    <string name="main_add_button_desc">Button that shows dialog with options of screen to open</string>
+    <string name="hide_bottom_sheet">Hide bottom sheet</string>
 </resources>
