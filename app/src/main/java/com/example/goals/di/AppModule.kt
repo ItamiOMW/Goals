@@ -2,12 +2,15 @@ package com.example.goals.di
 
 import android.app.Application
 import androidx.room.Room
-import com.example.goals.data.local.GoalsDao
+import com.example.goals.data.local.dao.GoalsDao
 import com.example.goals.data.local.GoalsDatabase
-import com.example.goals.data.local.TasksDao
+import com.example.goals.data.local.dao.NotesDao
+import com.example.goals.data.local.dao.TasksDao
 import com.example.goals.data.repository.GoalsRepositoryImpl
+import com.example.goals.data.repository.NotesRepositoryImpl
 import com.example.goals.data.repository.TasksRepositoryImpl
 import com.example.goals.domain.repository.GoalsRepository
+import com.example.goals.domain.repository.NotesRepository
 import com.example.goals.domain.repository.TasksRepository
 import dagger.Binds
 import dagger.Module
@@ -28,6 +31,10 @@ interface AppModule {
     @Singleton
     fun bindTasksRepository(tasksRepositoryImpl: TasksRepositoryImpl): TasksRepository
 
+    @Binds
+    @Singleton
+    fun bindNotesRepository(notesRepositoryImpl: NotesRepositoryImpl): NotesRepository
+
     companion object {
 
         @Provides
@@ -40,6 +47,12 @@ interface AppModule {
         @Singleton
         fun provideTasksDao(db: GoalsDatabase): TasksDao {
             return db.tasksDao()
+        }
+
+        @Provides
+        @Singleton
+        fun provideNotesDao(db: GoalsDatabase): NotesDao {
+            return db.notesDao()
         }
 
         @Provides

@@ -5,12 +5,16 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.goals.data.local.converters.SubGoalConverter
 import com.example.goals.data.local.converters.SubTaskConverter
+import com.example.goals.data.local.dao.GoalsDao
+import com.example.goals.data.local.dao.NotesDao
+import com.example.goals.data.local.dao.TasksDao
 import com.example.goals.domain.models.Goal
+import com.example.goals.domain.models.Note
 import com.example.goals.domain.models.Task
 
 @Database(
-    entities = [Goal::class, Task::class],
-    version = 4,
+    entities = [Goal::class, Task::class, Note::class],
+    version = 5,
     exportSchema = false
 )
 @TypeConverters(
@@ -22,6 +26,8 @@ abstract class GoalsDatabase : RoomDatabase() {
     abstract fun goalsDao(): GoalsDao
 
     abstract fun tasksDao(): TasksDao
+
+    abstract fun notesDao(): NotesDao
 
     companion object {
 
