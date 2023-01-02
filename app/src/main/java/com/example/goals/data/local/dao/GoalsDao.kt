@@ -1,4 +1,4 @@
-package com.example.goals.data.local
+package com.example.goals.data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Insert

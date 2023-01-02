@@ -1,6 +1,6 @@
 package com.example.goals.data.repository
 
-import com.example.goals.data.local.GoalsDao
+import com.example.goals.data.local.dao.GoalsDao
 import com.example.goals.domain.models.Goal
 import com.example.goals.domain.models.SubGoal
 import com.example.goals.domain.repository.GoalsRepository
