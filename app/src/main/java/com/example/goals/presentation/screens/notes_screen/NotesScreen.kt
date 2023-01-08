@@ -39,7 +39,7 @@ fun NotesScreen(
             ),
             modifier = Modifier.padding(top = 90.dp, start = 23.dp, end = 23.dp)
         )
-        Spacer(modifier = Modifier.height(23.dp))
+        Spacer(modifier = Modifier.height(25.dp))
         Text(
             text = "${state.notesList.size} ${stringResource(R.string.notes_capitals)}",
             style = TextStyle(color = Color.Gray,

@@ -12,7 +12,9 @@ data class Goal(
     val isReached: Boolean,
     val startDate: String,
     val endDate: String,
-    val colorId: Int,
+    val color: Int,
     @PrimaryKey(autoGenerate = true)
     val id: Int = UNKNOWN_ID,
 )
+
+class InvalidGoalTitleException(message: String) : Exception(message)

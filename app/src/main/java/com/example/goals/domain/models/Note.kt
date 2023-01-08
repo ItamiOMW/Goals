@@ -9,7 +9,7 @@ data class Note(
     val title: String,
     val content: String,
     val date: String,
-    val colorId: Int,
+    val color: Int,
     @PrimaryKey
     val id: Int = UNKNOWN_ID
 ) {

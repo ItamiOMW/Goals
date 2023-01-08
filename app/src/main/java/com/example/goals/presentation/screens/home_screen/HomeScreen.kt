@@ -1,12 +1,15 @@
 package com.example.goals.presentation.screens.home_screen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -87,6 +90,11 @@ fun TodaysTasks(
             LazyColumn() {
                 items(state.todaysUncompletedTasks.size) { i ->
                     TaskBigCard(
+                        modifier = Modifier
+                            .padding(15.dp)
+                            .shadow(5.dp, RoundedCornerShape(10.dp))
+                            .background(Color(state.todaysUncompletedTasks[i].color))
+                        ,
                         task = state.todaysUncompletedTasks[i],
                         onSubTaskIconCheckClick = { subTask, task ->
                             viewModel.onEvent(HomeEvent.OnCompleteSubTask(task, subTask))

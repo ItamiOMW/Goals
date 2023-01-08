@@ -8,7 +8,7 @@ import com.example.goals.utils.UNKNOWN_ID
 data class Task(
     val title: String,
     val content: String,
-    val colorId: Int,
+    val color: Int,
     val scheduledDate: String,
     val scheduledTimeStart: Long,
     val scheduledTimeEnd: Long,

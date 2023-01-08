@@ -1,7 +1,10 @@
 package com.example.goals.data.repository
 
+import android.app.Application
+import com.example.goals.R
 import com.example.goals.data.local.dao.GoalsDao
 import com.example.goals.domain.models.Goal
+import com.example.goals.domain.models.InvalidGoalTitleException
 import com.example.goals.domain.models.SubGoal
 import com.example.goals.domain.repository.GoalsRepository
 import kotlinx.coroutines.flow.Flow
@@ -9,6 +12,7 @@ import javax.inject.Inject
 
 class GoalsRepositoryImpl @Inject constructor(
     private val dao: GoalsDao,
+    private val application: Application,
 ) : GoalsRepository {
 
     override fun getGoals(): Flow<List<Goal>> {
@@ -20,6 +24,9 @@ class GoalsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun addGoal(goal: Goal) {
+        if (goal.title.isBlank()) {
+            throw InvalidGoalTitleException(application.getString(R.string.failed_title_is_empty))
+        }
         dao.addGoal(goal)
     }
 
@@ -43,6 +50,9 @@ class GoalsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun editGoal(goal: Goal) {
+        if (goal.title.isBlank()) {
+            throw InvalidGoalTitleException(application.getString(R.string.failed_title_is_empty))
+        }
         dao.updateGoal(goal)
     }
 
