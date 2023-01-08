@@ -30,6 +30,7 @@ import com.example.goals.R.drawable
 import com.example.goals.presentation.components.BottomNavigationBar
 import com.example.goals.presentation.components.NavigationItem
 import com.example.goals.presentation.navigation.Destination
+import com.example.goals.presentation.navigation.Destination.AddEditGoalScreen.GOAL_ID_ARG
 import com.example.goals.presentation.navigation.Navigation
 import com.example.goals.presentation.ui.theme.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -124,11 +125,12 @@ class MainActivity : ComponentActivity() {
                     showBottomBar = when (navBackStackEntry?.destination?.route) {
                         Destination.AddEditNoteScreen.route -> false
                         Destination.AddEditTaskScreen.route -> false
-                        Destination.AddEditGoalScreen.route -> false
+                        Destination.AddEditGoalScreen.route + "?${GOAL_ID_ARG}={$GOAL_ID_ARG}" -> false
                         else -> true
                     }
                     Scaffold(
-                        bottomBar = { if (showBottomBar) {
+                        bottomBar = {
+                            if (showBottomBar) {
                                 BottomAppBar(
                                     modifier = Modifier
                                         .height(60.dp)

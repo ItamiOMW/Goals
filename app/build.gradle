@@ -10,6 +10,10 @@ android {
     namespace 'com.example.goals'
     compileSdk 33
 
+    buildFeatures {
+        compose = true
+    }
+
     defaultConfig {
         applicationId "com.example.goals"
         minSdk 26
@@ -57,6 +61,7 @@ dependencies {
     implementation "androidx.compose.ui:ui:$compose_ui_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_ui_version"
     implementation "androidx.compose.material:material:$compose_material_version"
+    implementation 'com.google.android.material:material:1.7.0'
     testImplementation "junit:junit:4.13.2"
     androidTestImplementation "androidx.test.ext:junit:1.1.4"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.5.0"

@@ -13,4 +13,25 @@
     <string name="hide_bottom_sheet">Hide bottom sheet</string>
     <string name="notes">Notes</string>
     <string name="notes_capitals">NOTES</string>
+    <string name="enter_title">Enter title...</string>
+    <string name="enter_content">Enter content...</string>
+    <string name="title_cant_be_empty">Title can\'t be empty</string>
+    <string name="arrow_go_back_desc">Arrow to go back</string>
+    <string name="title">Title</string>
+    <string name="content">Content</string>
+    <string name="goal">Goal</string>
+    <string name="deadline">Deadline</string>
+    <string name="set_date">Set date</string>
+    <string name="color">Color</string>
+    <string name="save">Save</string>
+    <string name="goal_added">Goal has been added</string>
+    <string name="goal_edited">Goal has been edited</string>
+    <string name="sub_goals">Sub goals</string>
+    <string name="save_goal_desc">Save Goal</string>
+    <string name="failed_title_is_empty">Failed: Title is Empty</string>
+    <string name="add_new_subgoal">+ add new sub goal</string>
+    <string name="calendar_desc">Calendar</string>
+    <string name="delete_current_subgoal_desc">Delete current Subgoal</string>
+    <string name="new_subgoal">New sub goal</string>
+    <string name="edit_subgoal">Edit sub goal</string>
 </resources>

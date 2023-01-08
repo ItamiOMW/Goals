@@ -1,17 +1,13 @@
 package com.example.goals.presentation.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -35,9 +31,8 @@ fun TaskBigCard(
     onTaskIconCheckClick: (Task) -> Unit,
 ) {
     Box(modifier = modifier
-        .padding(15.dp)
-        .shadow(5.dp, RoundedCornerShape(10.dp))
-        .background(colorResource(id = task.colorId))) {
+
+    ) {
         Column(modifier = Modifier.padding(10.dp)) {
             Row(
                 horizontalArrangement = Arrangement.Center,
@@ -100,9 +95,15 @@ fun TaskBigCard(
                 horizontalAlignment = Alignment.Start
             ) {
                 task.subTasks.forEach { subTask ->
-                    SubTask(subTask = subTask, onCheckBoxClick = { clickedSubTask ->
-                        onSubTaskIconCheckClick(clickedSubTask, task)
-                    })
+                    SubTask(
+                        subTask = subTask,
+                        onCheckBoxClick = { clickedSubTask ->
+                            onSubTaskIconCheckClick(clickedSubTask, task)
+                        },
+                        modifier = Modifier
+                            .padding(top = 15.dp, bottom = 15.dp)
+                            .fillMaxWidth()
+                    )
                 }
             }
         }

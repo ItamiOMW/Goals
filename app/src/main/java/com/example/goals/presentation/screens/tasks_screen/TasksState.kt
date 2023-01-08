@@ -6,5 +6,4 @@ import com.example.goals.utils.getCurrentDateString
 data class TasksState(
     val date: String = getCurrentDateString(),
     val listTasksByDate: List<Task> = emptyList(),
-    val message: String = "",
 )

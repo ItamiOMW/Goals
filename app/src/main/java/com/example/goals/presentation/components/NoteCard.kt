@@ -12,8 +12,6 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.clipPath
-import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -28,7 +26,6 @@ fun NoteCard(
     cornerRadius: Dp = 10.dp,
     cutCornerSize: Dp = 30.dp,
 ) {
-    val noteColor = colorResource(id = note.colorId)
     Box(
         modifier = modifier
     ) {
@@ -43,13 +40,13 @@ fun NoteCard(
 
             clipPath(clipPath) {
                 drawRoundRect(
-                    color = noteColor,
+                    color = Color(note.color),
                     size = size,
                     cornerRadius = CornerRadius(cornerRadius.toPx())
                 )
                 drawRoundRect(
                     color = Color(
-                        ColorUtils.blendARGB(noteColor.toArgb(), 0x000000, 0.2f)
+                        ColorUtils.blendARGB(note.color, 0x000000, 0.2f)
                     ),
                     topLeft = Offset(size.width - cutCornerSize.toPx(), -100f),
                     size = Size(cutCornerSize.toPx() + 100f, cutCornerSize.toPx() + 100f),

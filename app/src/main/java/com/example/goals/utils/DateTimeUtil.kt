@@ -2,12 +2,30 @@ package com.example.goals.utils
 
 import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.*
 
 
 fun getCurrentDateString(): String {
     return LocalDate.now().toString()
+}
+
+fun getDateDaysInAdvance(daysToAdd: Long): String {
+    return LocalDate.now().plusDays(daysToAdd).toString()
+}
+
+fun String.formatDate(): String {
+    val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    val date = LocalDate.parse(this, dateFormatter)
+    val month = date.month.getDisplayName(TextStyle.FULL_STANDALONE, Locale.getDefault())
+    val year = date.year.toString()
+    val dayOfMonth = date.dayOfMonth.toString()
+    return "$dayOfMonth $month, $year"
+}
+
+fun formatDateToString(dayOfMonth: Int, month: Int, year: Int): String {
+    return LocalDate.of(year, month, dayOfMonth).toString()
 }
 
 fun getCurrentDateStringFormatted(): String {

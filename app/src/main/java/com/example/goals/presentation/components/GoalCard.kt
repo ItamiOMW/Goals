@@ -12,7 +12,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -33,7 +32,7 @@ fun GoalCard(
     modifier: Modifier = Modifier,
     backgroundColorDefault: Color = GrayShadeLight,
 ) {
-    val colorToFill = colorResource(id = goal.colorId)
+    val colorToFill = Color(goal.color)
     val amountOfCompletedSubGoals = goal.subGoals.filter { it.isCompleted }.size
     val percentageOfCompletedSubGoals =
         (amountOfCompletedSubGoals.toFloat() / goal.subGoals.size.toFloat())
@@ -46,7 +45,7 @@ fun GoalCard(
             .clickable {
                 onGoalCardClick(goal)
             }
-            .background(if (goal.isReached) colorToFill else backgroundColorDefault) //Needs when there is a Goal without SubGoals
+            .background(color = if (goal.isReached) colorToFill else backgroundColorDefault) //Needs when there is a Goal without SubGoals
             .drawBehind {
                 drawRoundRect(
                     color = colorToFill,
