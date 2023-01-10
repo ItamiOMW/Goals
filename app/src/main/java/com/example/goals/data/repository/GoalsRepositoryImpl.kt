@@ -19,7 +19,7 @@ class GoalsRepositoryImpl @Inject constructor(
         return dao.getGoals()
     }
 
-    override suspend fun getGoalById(id: Int): Goal? {
+    override fun getGoalById(id: Int): Flow<Goal?> {
         return dao.getGoalById(id)
     }
 
@@ -35,7 +35,10 @@ class GoalsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun completeGoal(goal: Goal) {
-        dao.updateGoal(goal.copy(isReached = !goal.isReached))
+        val goalToUpdate = goal.copy(isReached = !goal.isReached, subGoals = goal.subGoals.map {
+            it.copy(isCompleted = true)
+        })
+        dao.updateGoal(goalToUpdate)
     }
 
     override suspend fun completeSubGoal(subGoal: SubGoal, goal: Goal) {

@@ -30,7 +30,6 @@ import com.example.goals.R.drawable
 import com.example.goals.presentation.components.BottomNavigationBar
 import com.example.goals.presentation.components.NavigationItem
 import com.example.goals.presentation.navigation.Destination
-import com.example.goals.presentation.navigation.Destination.AddEditGoalScreen.GOAL_ID_ARG
 import com.example.goals.presentation.navigation.Navigation
 import com.example.goals.presentation.ui.theme.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,25 +44,28 @@ class MainActivity : ComponentActivity() {
         setContent {
             GoalsTheme {
                 val navController = rememberNavController()
-                val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
-                    bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
+
+                val bottomSheetState = rememberModalBottomSheetState(
+                    initialValue = ModalBottomSheetValue.Hidden,
+                    skipHalfExpanded = true
                 )
                 val bottomSheetCoroutineScope = rememberCoroutineScope()
-                BottomSheetScaffold(
+                ModalBottomSheetLayout(
                     sheetShape = RoundedCornerShape(10.dp, 10.dp),
                     sheetBackgroundColor = TextWhite,
-                    scaffoldState = bottomSheetScaffoldState,
+                    sheetState = bottomSheetState,
                     sheetContent = {
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .fillMaxHeight(0.3f),
+                                .wrapContentHeight(),
                             contentAlignment = Alignment.Center
                         ) {
                             Column(
                                 verticalArrangement = Arrangement.Center,
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
+                                Spacer(modifier = Modifier.height(20.dp))
                                 Row(
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -76,7 +78,7 @@ class MainActivity : ComponentActivity() {
                                             .clickable {
                                                 navController.navigate(item.route)
                                                 bottomSheetCoroutineScope.launch {
-                                                    bottomSheetScaffoldState.bottomSheetState.collapse()
+                                                    bottomSheetState.hide()
                                                 }
                                             }
                                         ) {
@@ -105,7 +107,7 @@ class MainActivity : ComponentActivity() {
                                     backgroundColor = Blue,
                                     onClick = {
                                         bottomSheetCoroutineScope.launch {
-                                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                                            bottomSheetState.hide()
                                         }
                                     },
                                 ) {
@@ -116,17 +118,19 @@ class MainActivity : ComponentActivity() {
                                         modifier = Modifier.size(30.dp)
                                     )
                                 }
+                                Spacer(modifier = Modifier.height(20.dp))
                             }
                         }
-                    }, sheetPeekHeight = 0.dp
+                    }
                 ) {
                     var showBottomBar by rememberSaveable { mutableStateOf(true) }
                     val navBackStackEntry by navController.currentBackStackEntryAsState()
                     showBottomBar = when (navBackStackEntry?.destination?.route) {
-                        Destination.AddEditNoteScreen.route -> false
-                        Destination.AddEditTaskScreen.route -> false
-                        Destination.AddEditGoalScreen.route + "?${GOAL_ID_ARG}={$GOAL_ID_ARG}" -> false
-                        else -> true
+                        Destination.HomeScreen.route -> true
+                        Destination.TasksScreen.route -> true
+                        Destination.GoalsScreen.route -> true
+                        Destination.NotesScreen.route -> true
+                        else -> false
                     }
                     Scaffold(
                         bottomBar = {
@@ -157,7 +161,7 @@ class MainActivity : ComponentActivity() {
                                     backgroundColor = Blue,
                                     onClick = {
                                         bottomSheetCoroutineScope.launch {
-                                            bottomSheetScaffoldState.bottomSheetState.expand()
+                                            bottomSheetState.show()
                                         }
                                     }
                                 ) {

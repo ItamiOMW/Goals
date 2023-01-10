@@ -18,6 +18,10 @@ sealed class Destination(val route: String) {
 
     object AddEditNoteScreen : Destination(ADD_EDIT_NOTE_SCREEN_ROUTE)
 
+    object GoalInfoScreen: Destination(GOAL_INFO_SCREEN_ROUTE) {
+        const val GOAL_ID_ARG = "goalId"
+    }
+
     companion object {
 
         private const val HOME_SCREEN_ROUTE = "home"
@@ -33,6 +37,8 @@ sealed class Destination(val route: String) {
         private const val ADD_EDIT_TASK_SCREEN_ROUTE = "add_edit_task"
 
         private const val ADD_EDIT_NOTE_SCREEN_ROUTE = "add_edit_note"
+
+        private const val GOAL_INFO_SCREEN_ROUTE = "goal_info"
 
 
 

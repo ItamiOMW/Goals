@@ -18,6 +18,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
 @HiltViewModel
@@ -50,10 +51,12 @@ class AddEditGoalViewModel @Inject constructor(
     var chosenSubGoalIndex by mutableStateOf<Int?>(null)
         private set
 
-    private val _eventFlow = MutableSharedFlow<SingleUiEvent>()
+    private val _eventFlow = MutableSharedFlow<AddEditGoalUiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
     private var currentGoalId: Int = UNKNOWN_ID
+
+    private var currentGoal: Goal? = null
 
     init {
         savedStateHandle.get<Int>(GOAL_ID_ARG)?.let { goalId ->
@@ -79,7 +82,16 @@ class AddEditGoalViewModel @Inject constructor(
                 goalColor = event.colorInt
             }
             is AddEditGoalEvent.SaveGoal -> {
-                saveGoal()
+                saveGoal(
+                    currentGoalId,
+                    goalTitle.text,
+                    goalContent.text,
+                    subGoals,
+                    currentGoal?.isReached ?: false,
+                    startDate = getCurrentDateString(),
+                    endDate = deadline,
+                    goalColor
+                )
             }
             is AddEditGoalEvent.TitleTextChange -> {
                 goalTitle = goalTitle.copy(text = event.text, textError = null)
@@ -101,29 +113,38 @@ class AddEditGoalViewModel @Inject constructor(
         }
     }
 
-    private fun saveGoal() {
+    private fun saveGoal(
+        id: Int,
+        title: String,
+        content: String,
+        subGoals: List<SubGoal>,
+        isReached: Boolean,
+        startDate: String,
+        endDate: String,
+        color: Int,
+    ) {
         viewModelScope.launch {
             try {
                 val goal = Goal(
-                    id = currentGoalId,
-                    title = goalTitle.text,
-                    content = goalContent.text,
+                    id = id,
+                    title = title,
+                    content = content,
                     subGoals = subGoals,
-                    isReached = false,
-                    startDate = getCurrentDateString(),
-                    endDate = deadline,
-                    color = goalColor
+                    isReached = isReached,
+                    startDate = startDate,
+                    endDate = endDate,
+                    color = color
                 )
-                if (currentGoalId == UNKNOWN_ID) {
+                if (id == UNKNOWN_ID) {
                     repository.addGoal(goal) //If currentGoalId == UNKNOWN_ID then goal is new and should be added
-                    _eventFlow.emit(SingleUiEvent.ShowToast(application.getString(R.string.goal_added)))
+                    _eventFlow.emit(AddEditGoalUiEvent.ShowToast(application.getString(R.string.goal_added)))
                 } else {
                     repository.editGoal(goal) //If current goal != UNKNOWN_ID then goal exists and should be edited
-                    _eventFlow.emit(SingleUiEvent.ShowToast(application.getString(R.string.goal_edited)))
+                    _eventFlow.emit(AddEditGoalUiEvent.ShowToast(application.getString(R.string.goal_edited)))
                 }
-                _eventFlow.emit(SingleUiEvent.NavigateBack)
+                _eventFlow.emit(AddEditGoalUiEvent.GoalSaved)
             } catch (e: InvalidGoalTitleException) {
-                _eventFlow.emit(SingleUiEvent.ShowToast(e.message.toString()))
+                _eventFlow.emit(AddEditGoalUiEvent.ShowToast(e.message.toString()))
                 goalTitle = goalTitle.copy(textError = e.message) //Handle error
             }
         }
@@ -131,13 +152,14 @@ class AddEditGoalViewModel @Inject constructor(
 
     private fun getGoalById(id: Int) {
         viewModelScope.launch {
-            repository.getGoalById(id).also { goal ->
+            repository.getGoalById(id).collectLatest { goal ->
                 if (goal != null) {
                     goalTitle = goalTitle.copy(text = goal.title)
                     goalContent = goalContent.copy(text = goal.content)
                     goalColor = goal.color
                     deadline = goal.endDate
                     subGoals = goal.subGoals
+                    currentGoal = goal
                 }
             }
         }

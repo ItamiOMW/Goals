@@ -34,6 +34,7 @@ import com.example.goals.presentation.ui.theme.GrayShadeLight
 import com.example.goals.presentation.ui.theme.TextWhite
 import com.example.goals.presentation.ui.theme.fonts
 import com.example.goals.utils.EMPTY_STRING
+import com.example.goals.utils.UNKNOWN_ID
 import com.example.goals.utils.formatDate
 import com.example.goals.utils.listOfColors
 import kotlinx.coroutines.launch
@@ -43,6 +44,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun AddEditGoalScreen(
     viewModel: AddEditGoalViewModel = hiltViewModel(),
+    goalId: Int,
     navController: NavController,
 ) {
     //States
@@ -61,10 +63,10 @@ fun AddEditGoalScreen(
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collect { event ->
             when (event) {
-                is SingleUiEvent.ShowToast -> {
+                is AddEditGoalUiEvent.ShowToast -> {
                     Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
                 }
-                is SingleUiEvent.NavigateBack -> {
+                is AddEditGoalUiEvent.GoalSaved -> {
                     navController.navigateUp()
                 }
             }
@@ -160,7 +162,7 @@ fun AddEditGoalScreen(
                     )
                 ) {
                     Text(
-                        text = stringResource(id = R.string.save),
+                        text = stringResource(R.string.save),
                         style = TextStyle(
                             color = goalColorState,
                             fontSize = 17.sp,
@@ -195,7 +197,8 @@ fun AddEditGoalScreen(
                         }
                 )
                 Text(
-                    text = stringResource(id = R.string.goal),
+                    text = if (goalId == UNKNOWN_ID) stringResource(R.string.add_goal)
+                    else stringResource(id = R.string.edit_goal),
                     style = TextStyle(
                         color = TextWhite,
                         fontFamily = fonts,
@@ -359,7 +362,8 @@ fun AddEditGoalScreen(
                     Icon(painter = painterResource(
                         id = R.drawable.ic_add),
                         contentDescription = stringResource(id = R.string.add_new_subgoal),
-                        modifier = Modifier.size(35.dp)
+                        modifier = Modifier
+                            .size(35.dp)
                             .align(Alignment.CenterVertically)
                             .clickable {
                                 viewModel.onEvent(AddEditGoalEvent.BottomSheetTextChanged(
@@ -376,7 +380,6 @@ fun AddEditGoalScreen(
                         .fillMaxWidth()
                         .wrapContentHeight()
                 ) {
-
                     subGoalsState.forEachIndexed() { i, subGoal ->
                         SubGoal(
                             subGoal = subGoal,
