@@ -8,7 +8,7 @@ interface GoalsRepository {
 
     fun getGoals(): Flow<List<Goal>>
 
-    suspend fun getGoalById(id: Int): Goal?
+    fun getGoalById(id: Int): Flow<Goal?>
 
     suspend fun addGoal(goal: Goal)
 

@@ -31,7 +31,22 @@
     <string name="failed_title_is_empty">Failed: Title is Empty</string>
     <string name="add_new_subgoal">+ add new sub goal</string>
     <string name="calendar_desc">Calendar</string>
-    <string name="delete_current_subgoal_desc">Delete current Subgoal</string>
+    <string name="delete_current_subgoal_desc">Delete current SubGoal</string>
     <string name="new_subgoal">New sub goal</string>
     <string name="edit_subgoal">Edit sub goal</string>
+    <string name="goal_deleted">Goal deleted</string>
+    <string name="edit_goal">Edit Goal</string>
+    <string name="delete_goal_desc">Delete goal</string>
+    <string name="delete_this_goal_question">Delete this goal?</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="start_date">Start date</string>
+    <string name="complete_goal">Complete goal</string>
+    <string name="add_goal">Add Goal</string>
+    <string name="make_goal_uncompleted_qustion">Make this goal uncompleted?</string>
+    <string name="complete_goal_question">Complete this goal?</string>
+    <string name="complete">Complete</string>
+    <string name="make_uncompleted">Make uncompleted</string>
+    <string name="not_achieved">Not Achieved</string>
+    <string name="achieved">Achieved</string>
 </resources>
