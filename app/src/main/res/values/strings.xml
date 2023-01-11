@@ -49,4 +49,9 @@
     <string name="make_uncompleted">Make uncompleted</string>
     <string name="not_achieved">Not Achieved</string>
     <string name="achieved">Achieved</string>
+    <string name="note_added">Note has been added</string>
+    <string name="note_edited">Note has been edited</string>
+    <string name="edit_note">Edit Note</string>
+    <string name="add_note">Add Note</string>
+    <string name="save_note_desc">Save Note</string>
 </resources>

@@ -26,7 +26,7 @@ import androidx.navigation.NavController
 import com.example.goals.R
 import com.example.goals.presentation.components.SubGoal
 import com.example.goals.presentation.navigation.Destination.AddEditGoalScreen
-import com.example.goals.presentation.navigation.Destination.GoalInfoScreen
+import com.example.goals.presentation.navigation.Destination.Companion.GOAL_ID_ARG
 import com.example.goals.presentation.ui.theme.GrayShadeLight
 import com.example.goals.presentation.ui.theme.TextWhite
 import com.example.goals.presentation.ui.theme.fonts
@@ -129,7 +129,7 @@ fun GoalInfoScreen(
                                     .clickable {
                                         navController.navigate(
                                             route = AddEditGoalScreen.route +
-                                                    "?${GoalInfoScreen.GOAL_ID_ARG}=${goalState.id}"
+                                                    "?$GOAL_ID_ARG=${goalState.id}"
                                         )
                                     }
                             )

@@ -10,17 +10,13 @@ sealed class Destination(val route: String) {
 
     object NotesScreen : Destination(NOTES_SCREEN_ROUTE)
 
-    object AddEditGoalScreen : Destination(ADD_EDIT_GOAL_SCREEN_ROUTE) {
-        const val GOAL_ID_ARG = "goalId"
-    }
+    object AddEditGoalScreen : Destination(ADD_EDIT_GOAL_SCREEN_ROUTE)
 
     object AddEditTaskScreen : Destination(ADD_EDIT_TASK_SCREEN_ROUTE)
 
     object AddEditNoteScreen : Destination(ADD_EDIT_NOTE_SCREEN_ROUTE)
 
-    object GoalInfoScreen: Destination(GOAL_INFO_SCREEN_ROUTE) {
-        const val GOAL_ID_ARG = "goalId"
-    }
+    object GoalInfoScreen: Destination(GOAL_INFO_SCREEN_ROUTE)
 
     companion object {
 
@@ -40,7 +36,9 @@ sealed class Destination(val route: String) {
 
         private const val GOAL_INFO_SCREEN_ROUTE = "goal_info"
 
+        const val GOAL_ID_ARG = "goalId"
 
+        const val NOTE_ID_ARG = "noteId"
 
     }
 }

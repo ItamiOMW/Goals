@@ -12,7 +12,7 @@ import com.example.goals.domain.models.InvalidGoalTitleException
 import com.example.goals.domain.models.SubGoal
 import com.example.goals.domain.repository.GoalsRepository
 import com.example.goals.presentation.components.TextFieldState
-import com.example.goals.presentation.navigation.Destination.AddEditGoalScreen.GOAL_ID_ARG
+import com.example.goals.presentation.navigation.Destination.Companion.GOAL_ID_ARG
 import com.example.goals.utils.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
@@ -136,10 +136,10 @@ class AddEditGoalViewModel @Inject constructor(
                     color = color
                 )
                 if (id == UNKNOWN_ID) {
-                    repository.addGoal(goal) //If currentGoalId == UNKNOWN_ID then goal is new and should be added
+                    repository.addGoal(goal) //If id == UNKNOWN_ID then goal is new and should be added
                     _eventFlow.emit(AddEditGoalUiEvent.ShowToast(application.getString(R.string.goal_added)))
                 } else {
-                    repository.editGoal(goal) //If current goal != UNKNOWN_ID then goal exists and should be edited
+                    repository.editGoal(goal) //If id != UNKNOWN_ID then goal exists and should be edited
                     _eventFlow.emit(AddEditGoalUiEvent.ShowToast(application.getString(R.string.goal_edited)))
                 }
                 _eventFlow.emit(AddEditGoalUiEvent.GoalSaved)
