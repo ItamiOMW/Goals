@@ -54,4 +54,9 @@
     <string name="edit_note">Edit Note</string>
     <string name="add_note">Add Note</string>
     <string name="save_note_desc">Save Note</string>
+    <string name="delete_note_question">Delete this note?</string>
+    <string name="delete_note_desc">Delete this note</string>
+    <string name="no_notes">No notes</string>
+    <string name="note_deleted">Note deleted</string>
+    <string name="note">Note</string>
 </resources>
