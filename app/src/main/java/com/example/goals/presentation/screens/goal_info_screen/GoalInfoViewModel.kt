@@ -12,6 +12,7 @@ import com.example.goals.domain.models.Goal
 import com.example.goals.domain.models.SubGoal
 import com.example.goals.domain.repository.GoalsRepository
 import com.example.goals.presentation.navigation.Destination
+import com.example.goals.presentation.navigation.Destination.Companion.GOAL_ID_ARG
 import com.example.goals.utils.UNKNOWN_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -36,7 +37,7 @@ class GoalInfoViewModel @Inject constructor(
     private var currentGoalId: Int? = null
 
     init {
-        savedStateHandle.get<Int>(Destination.AddEditGoalScreen.GOAL_ID_ARG)?.let { goalId ->
+        savedStateHandle.get<Int>(GOAL_ID_ARG)?.let { goalId ->
             if (goalId != UNKNOWN_ID) {
                 currentGoalId = goalId
                 getGoalById(goalId)

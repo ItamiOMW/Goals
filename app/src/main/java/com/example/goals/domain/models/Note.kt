@@ -10,7 +10,8 @@ data class Note(
     val content: String,
     val date: String,
     val color: Int,
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val id: Int = UNKNOWN_ID
-) {
-}
+)
+
+class InvalidNoteTitleException(message: String) : Exception(message)

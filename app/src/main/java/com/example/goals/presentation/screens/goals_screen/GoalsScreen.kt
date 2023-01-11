@@ -19,6 +19,7 @@ import androidx.navigation.NavController
 import com.example.goals.R
 import com.example.goals.presentation.components.GoalCard
 import com.example.goals.presentation.navigation.Destination
+import com.example.goals.presentation.navigation.Destination.Companion.GOAL_ID_ARG
 import com.example.goals.presentation.ui.theme.TextWhite
 import com.example.goals.presentation.ui.theme.fonts
 
@@ -87,7 +88,7 @@ fun Goals(
                     GoalCard(goal = state.goals[i], onGoalCardClick = { goal ->
                         navController.navigate(
                             Destination.GoalInfoScreen.route +
-                                "?${Destination.GoalInfoScreen.GOAL_ID_ARG}=${goal.id}"
+                                "?$GOAL_ID_ARG=${goal.id}"
                         )
                     })
                 }
