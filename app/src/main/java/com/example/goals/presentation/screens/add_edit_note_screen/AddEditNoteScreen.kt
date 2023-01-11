@@ -6,6 +6,7 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -27,7 +28,6 @@ import androidx.navigation.NavController
 import com.example.goals.R
 import com.example.goals.presentation.components.ColorBox
 import com.example.goals.presentation.components.CustomTextField
-import com.example.goals.presentation.screens.add_edit_goal_screen.AddEditGoalEvent
 import com.example.goals.presentation.ui.theme.TextWhite
 import com.example.goals.presentation.ui.theme.fonts
 import com.example.goals.utils.UNKNOWN_ID
@@ -65,6 +65,7 @@ fun AddEditNoteScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(10.dp)
+            .verticalScroll(rememberScrollState())
     ) {
         Row(
             modifier = Modifier

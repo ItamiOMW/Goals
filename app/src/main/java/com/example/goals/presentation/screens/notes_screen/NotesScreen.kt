@@ -1,5 +1,6 @@
 package com.example.goals.presentation.screens.notes_screen
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Divider
@@ -14,8 +15,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.goals.R
 import com.example.goals.presentation.components.NoteCard
+import com.example.goals.presentation.navigation.Destination
 import com.example.goals.presentation.ui.theme.TextWhite
 import com.example.goals.presentation.ui.theme.fonts
 
@@ -23,6 +26,7 @@ import com.example.goals.presentation.ui.theme.fonts
 @Composable
 fun NotesScreen(
     viewModel: NotesViewModel = hiltViewModel(),
+    navController: NavController,
 ) {
     val state = viewModel.state
     Column(
@@ -62,7 +66,15 @@ fun NotesScreen(
         if (state.notesList.isNotEmpty()) {
             LazyColumn() {
                 items(state.notesList.size) { i ->
-                    NoteCard(note = state.notesList[i], modifier = Modifier.padding(20.dp))
+                    NoteCard(note = state.notesList[i], modifier = Modifier
+                        .padding(20.dp)
+                        .clickable {
+                            navController.navigate(
+                                Destination.NoteInfoScreen.route +
+                                        "?${Destination.NOTE_ID_ARG}=${state.notesList[i].id}"
+                            )
+                        }
+                    )
                     if (i == state.notesList.size - 1) {
                         Divider(modifier = Modifier.padding(30.dp))
                     }
@@ -74,7 +86,7 @@ fun NotesScreen(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "No notes",
+                    text = stringResource(R.string.no_notes),
                     style = TextStyle(
                         color = Color.Gray,
                         fontSize = 25.sp,
