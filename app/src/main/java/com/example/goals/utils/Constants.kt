@@ -7,6 +7,8 @@ const val UNKNOWN_ID = 0
 
 const val EMPTY_STRING = ""
 
+const val EMPTY_LONG = 0L
+
 val listOfColors = listOf(
     RedPink,
     LightGreen,

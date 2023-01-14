@@ -18,4 +18,3 @@ data class Goal(
 )
 
 class InvalidGoalTitleException(message: String) : Exception(message)
-

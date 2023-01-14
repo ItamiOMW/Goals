@@ -44,5 +44,7 @@ sealed class Destination(val route: String) {
 
         const val NOTE_ID_ARG = "noteId"
 
+        const val TASK_ID_ARG = "taskId"
+
     }
 }

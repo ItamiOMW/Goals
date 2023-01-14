@@ -21,7 +21,7 @@ interface TasksDao {
     fun getUncompletedTasksByDate(date: String, isCompleted: Boolean = false): Flow<List<Task>>
 
     @Query("SELECT * FROM tasks_table WHERE id=:id LIMIT 1")
-    suspend fun getTaskById(id: Int): Task?
+    fun getTaskById(id: Int): Flow<Task?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addTask(task: Task)

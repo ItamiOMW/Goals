@@ -14,7 +14,7 @@ import com.example.goals.domain.models.Task
 
 @Database(
     entities = [Goal::class, Task::class, Note::class],
-    version = 6,
+    version = 8,
     exportSchema = false
 )
 @TypeConverters(

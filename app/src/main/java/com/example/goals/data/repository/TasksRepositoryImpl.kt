@@ -1,5 +1,6 @@
 package com.example.goals.data.repository
 
+import android.app.Application
 import com.example.goals.data.local.dao.TasksDao
 import com.example.goals.domain.models.SubTask
 import com.example.goals.domain.models.Task
@@ -23,7 +24,7 @@ class TasksRepositoryImpl @Inject constructor(
         return dao.getUncompletedTasksByDate(date)
     }
 
-    override suspend fun getTaskById(id: Int): Task? {
+    override fun getTaskById(id: Int): Flow<Task?> {
         return dao.getTaskById(id)
     }
 

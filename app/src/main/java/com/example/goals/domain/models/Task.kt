@@ -17,3 +17,9 @@ data class Task(
     @PrimaryKey(autoGenerate = true)
     val id: Int = UNKNOWN_ID,
 )
+
+class TaskTitleIsEmptyException() : Exception()
+
+class TaskTimeStartIsEmptyException(): Exception()
+
+class TaskTimeEndIsEmptyException(): Exception()
