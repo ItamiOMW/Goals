@@ -20,7 +20,7 @@ import com.example.goals.R.string
 import com.example.goals.domain.models.SubTask
 import com.example.goals.domain.models.Task
 import com.example.goals.presentation.ui.theme.fonts
-import com.example.goals.utils.toTimeString
+import com.example.goals.utils.timeSecondsToString
 
 
 @Composable
@@ -59,7 +59,8 @@ fun TaskBigCard(
                         fontSize = 25.sp,
                         fontWeight = FontWeight.Bold,
                         fontFamily = fonts,
-                        textDecoration = if (task.isCompleted) TextDecoration.LineThrough else null
+                        textDecoration = if (task.isCompleted) TextDecoration.LineThrough
+                        else TextDecoration.None
                     )
                 )
             }
@@ -82,8 +83,8 @@ fun TaskBigCard(
                     modifier = Modifier.size(24.dp)
                 )
                 Spacer(modifier = Modifier.width(7.dp))
-                val timeStart = task.scheduledTimeStart.toTimeString()
-                val timeEnd = task.scheduledTimeEnd.toTimeString()
+                val timeStart = task.scheduledTimeStart.timeSecondsToString()
+                val timeEnd = task.scheduledTimeEnd.timeSecondsToString()
                 Text(text = "$timeStart-$timeEnd",
                     style = TextStyle(color = Color.Black,
                         fontSize = 12.sp,

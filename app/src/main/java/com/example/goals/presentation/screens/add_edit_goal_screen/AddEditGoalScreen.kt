@@ -26,10 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.goals.R
-import com.example.goals.presentation.components.ColorBox
-import com.example.goals.presentation.components.CustomTextField
-import com.example.goals.presentation.components.DatePickerDialog
-import com.example.goals.presentation.components.SubGoal
+import com.example.goals.presentation.components.*
 import com.example.goals.presentation.ui.theme.GrayShadeLight
 import com.example.goals.presentation.ui.theme.TextWhite
 import com.example.goals.presentation.ui.theme.fonts
@@ -73,20 +70,20 @@ fun AddEditGoalScreen(
         }
     }
 
-    var showDialog by remember {
+    var showDatePickerDialog by remember {
         mutableStateOf(false)
     }
 
     Scaffold() {
         it
         DatePickerDialog(
-            showDialog = showDialog,
+            showDialog = showDatePickerDialog,
             onCancelled = {
-                showDialog = false
+                showDatePickerDialog = false
             },
             onDatePicked = { date ->
                 viewModel.onEvent(AddEditGoalEvent.DeadlineChange(date))
-                showDialog = false
+                showDatePickerDialog = false
             })
     }
 
@@ -303,7 +300,7 @@ fun AddEditGoalScreen(
                     .shadow(5.dp, RoundedCornerShape(10.dp))
                     .padding(10.dp)
                     .clickable {
-                        showDialog = true
+                        showDatePickerDialog = true
                     }
             ) {
                 Text(
@@ -366,8 +363,10 @@ fun AddEditGoalScreen(
                             .size(35.dp)
                             .align(Alignment.CenterVertically)
                             .clickable {
-                                viewModel.onEvent(AddEditGoalEvent.BottomSheetTextChanged(
-                                    EMPTY_STRING)
+                                viewModel.onEvent(
+                                    AddEditGoalEvent.BottomSheetTextChanged(
+                                        EMPTY_STRING
+                                    )
                                 )
                                 bottomSheetCoroutineScope.launch {
                                     bottomSheetState.show()

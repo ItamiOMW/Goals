@@ -136,10 +136,10 @@ class AddEditGoalViewModel @Inject constructor(
                     color = color
                 )
                 if (id == UNKNOWN_ID) {
-                    repository.addGoal(goal) //If id == UNKNOWN_ID then goal is new and should be added
+                    repository.addGoal(goal) //If id == UNKNOWN_ID then task is new and should be added
                     _eventFlow.emit(AddEditGoalUiEvent.ShowToast(application.getString(R.string.goal_added)))
                 } else {
-                    repository.editGoal(goal) //If id != UNKNOWN_ID then goal exists and should be edited
+                    repository.editGoal(goal) //If id != UNKNOWN_ID then task exists and should be edited
                     _eventFlow.emit(AddEditGoalUiEvent.ShowToast(application.getString(R.string.goal_edited)))
                 }
                 _eventFlow.emit(AddEditGoalUiEvent.GoalSaved)
@@ -173,11 +173,11 @@ class AddEditGoalViewModel @Inject constructor(
             )
             val newSubGoals = subGoals.toMutableList()
             subGoals = if (index == null) {
-                //If Index is null then it's new SubGoal and we should just add it
+                //If Index is null then it's new SubTask and we should just add it
                 newSubGoals.add(subGoal)
                 newSubGoals
             } else {
-                //Else then it's edited SubGoal and we should replace it with by index
+                //Else then it's edited SubTask and we should replace it with by index
                 newSubGoals.removeAt(index)
                 newSubGoals.add(index, subGoal)
                 newSubGoals

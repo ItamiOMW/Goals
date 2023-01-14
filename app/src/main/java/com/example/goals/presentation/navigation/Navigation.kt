@@ -9,6 +9,7 @@ import androidx.navigation.navArgument
 import com.example.goals.presentation.navigation.Destination.*
 import com.example.goals.presentation.navigation.Destination.Companion.GOAL_ID_ARG
 import com.example.goals.presentation.navigation.Destination.Companion.NOTE_ID_ARG
+import com.example.goals.presentation.navigation.Destination.Companion.TASK_ID_ARG
 import com.example.goals.presentation.screens.add_edit_goal_screen.AddEditGoalScreen
 import com.example.goals.presentation.screens.add_edit_note_screen.AddEditNoteScreen
 import com.example.goals.presentation.screens.add_edit_task_screen.AddEditTaskScreen
@@ -48,8 +49,17 @@ fun Navigation(navHostController: NavHostController) {
             val goalId = entry.arguments?.getInt(GOAL_ID_ARG) ?: UNKNOWN_ID
             AddEditGoalScreen(navController = navHostController, goalId = goalId)
         }
-        composable(route = AddEditTaskScreen.route) {
-            AddEditTaskScreen()
+        composable(
+            route = AddEditTaskScreen.route + "?$TASK_ID_ARG={$TASK_ID_ARG}",
+            arguments = listOf(
+                navArgument(TASK_ID_ARG) {
+                    type = NavType.IntType
+                    defaultValue = UNKNOWN_ID
+                }
+            )
+        ) { entry ->
+            val taskId = entry.arguments?.getInt(TASK_ID_ARG) ?: UNKNOWN_ID
+            AddEditTaskScreen(navController = navHostController, taskId = taskId)
         }
         composable(
             route = AddEditNoteScreen.route + "?$NOTE_ID_ARG={$NOTE_ID_ARG}",

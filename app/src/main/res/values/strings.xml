@@ -59,4 +59,19 @@
     <string name="no_notes">No notes</string>
     <string name="note_deleted">Note deleted</string>
     <string name="note">Note</string>
+    <string name="failed_choose_task_time_start">Failed: Choose task start time</string>
+    <string name="failed_choose_task_time_end">Failed: Choose task end time</string>
+    <string name="task_added">Task has been added</string>
+    <string name="task_edited">Task has been edited</string>
+    <string name="edit_subtask">Edit Sub Task</string>
+    <string name="new_subtask">New Sub Task</string>
+    <string name="add_task">Add Task</string>
+    <string name="edit_task">Edit Task</string>
+    <string name="date">Date</string>
+    <string name="start_time">Start Time</string>
+    <string name="end_time">End Time</string>
+    <string name="reminder">Task Reminder</string>
+    <string name="clock_desc">Clock</string>
+    <string name="add_new_subtask_desc">add new sub task</string>
+    <string name="sub_tasks">Sub Tasks</string>
 </resources>
