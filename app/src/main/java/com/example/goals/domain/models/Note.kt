@@ -14,4 +14,4 @@ data class Note(
     val id: Int = UNKNOWN_ID
 )
 
-class InvalidNoteTitleException(message: String) : Exception(message)
+class NoteTitleIsEmptyException() : Exception()

@@ -10,8 +10,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.goals.R
 import com.example.goals.domain.models.Goal
 import com.example.goals.domain.models.SubGoal
-import com.example.goals.domain.repository.GoalsRepository
-import com.example.goals.presentation.navigation.Destination
+import com.example.goals.domain.usecases.goal_usecases.CompleteGoalUseCase
+import com.example.goals.domain.usecases.goal_usecases.CompleteSubGoalUseCase
+import com.example.goals.domain.usecases.goal_usecases.DeleteGoalUseCase
+import com.example.goals.domain.usecases.goal_usecases.GetGoalByIdUseCase
 import com.example.goals.presentation.navigation.Destination.Companion.GOAL_ID_ARG
 import com.example.goals.utils.UNKNOWN_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,7 +25,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GoalInfoViewModel @Inject constructor(
-    private val repository: GoalsRepository,
+    private val deleteGoalUseCase: DeleteGoalUseCase,
+    private val getGoalByIdUseCase: GetGoalByIdUseCase,
+    private val completeGoalUseCase: CompleteGoalUseCase,
+    private val completeSubGoalUseCase: CompleteSubGoalUseCase,
     private val savedStateHandle: SavedStateHandle,
     private val application: Application,
 ) : ViewModel() {
@@ -61,14 +66,14 @@ class GoalInfoViewModel @Inject constructor(
 
     private fun changeSubGoalCompleteness(subGoal: SubGoal, goal: Goal) {
         viewModelScope.launch {
-            repository.completeSubGoal(subGoal, goal)
+            completeSubGoalUseCase(subGoal, goal)
         }
     }
 
     private fun deleteGoal(goal: Goal?) {
         viewModelScope.launch {
             goal?.let {
-                repository.deleteGoal(it)
+                deleteGoalUseCase(it)
                 _eventFlow.emit(GoalInfoUiEvent.ShowToast(application.getString(R.string.goal_deleted)))
                 _eventFlow.emit(GoalInfoUiEvent.GoalDeleted)
             }
@@ -78,14 +83,14 @@ class GoalInfoViewModel @Inject constructor(
     private fun completeGoal(goal: Goal?) {
         viewModelScope.launch {
             goal?.let {
-                repository.completeGoal(goal)
+                completeGoalUseCase(goal)
             }
         }
     }
 
     private fun getGoalById(id: Int) {
         viewModelScope.launch {
-            repository.getGoalById(id).collectLatest { goal ->
+            getGoalByIdUseCase(id).collectLatest { goal ->
                 currentGoal = goal
             }
         }

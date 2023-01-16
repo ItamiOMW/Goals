@@ -9,9 +9,11 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.goals.R
-import com.example.goals.domain.models.InvalidNoteTitleException
 import com.example.goals.domain.models.Note
-import com.example.goals.domain.repository.NotesRepository
+import com.example.goals.domain.models.NoteTitleIsEmptyException
+import com.example.goals.domain.usecases.note_usecases.AddNoteUseCase
+import com.example.goals.domain.usecases.note_usecases.EditNoteUseCase
+import com.example.goals.domain.usecases.note_usecases.GetNoteByIdUseCase
 import com.example.goals.presentation.components.TextFieldState
 import com.example.goals.presentation.navigation.Destination.Companion.NOTE_ID_ARG
 import com.example.goals.utils.UNKNOWN_ID
@@ -26,17 +28,21 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddEditNoteViewModel @Inject constructor(
-    private val repository: NotesRepository,
+    private val addNoteUseCase: AddNoteUseCase,
+    private val editNoteUseCase: EditNoteUseCase,
+    private val getNoteByIdUseCase: GetNoteByIdUseCase,
     private val savedStateHandle: SavedStateHandle,
     private val application: Application,
 ) : ViewModel() {
 
     var noteTitle by mutableStateOf(
-        TextFieldState(hint = application.getString(R.string.enter_title)))
+        TextFieldState(hint = application.getString(R.string.enter_title))
+    )
         private set
 
     var noteContent by mutableStateOf(
-        TextFieldState(hint = application.getString(R.string.enter_content)))
+        TextFieldState(hint = application.getString(R.string.enter_content))
+    )
         private set
 
     var noteColor by mutableStateOf(listOfColors.first().toArgb())
@@ -92,23 +98,23 @@ class AddEditNoteViewModel @Inject constructor(
             try {
                 val note = Note(title, content, date, color, id)
                 if (id == UNKNOWN_ID) {
-                    repository.addNote(note) //If id == UNKNOWN_ID then note is new and should be added
+                    addNoteUseCase(note) //If id == UNKNOWN_ID then note is new and should be added
                     _eventFlow.emit(AddEditNoteUiEvent.ShowToast(application.getString(R.string.note_added)))
                 } else {
-                    repository.editNote(note) //If id != UNKNOWN_ID then goal exists and should be edited
+                    editNoteUseCase(note) //If id != UNKNOWN_ID then goal exists and should be edited
                     _eventFlow.emit(AddEditNoteUiEvent.ShowToast(application.getString(R.string.note_edited)))
                 }
                 _eventFlow.emit(AddEditNoteUiEvent.NoteSaved)
-            } catch (e: InvalidNoteTitleException) {
-                _eventFlow.emit(AddEditNoteUiEvent.ShowToast(e.message.toString()))
-                noteTitle = noteTitle.copy(textError = e.message)
+            } catch (e: NoteTitleIsEmptyException) {
+                _eventFlow.emit(AddEditNoteUiEvent.ShowToast(application.getString(R.string.failed_title_is_empty)))
+                noteTitle = noteTitle.copy(textError = application.getString(R.string.failed_title_is_empty))
             }
         }
     }
 
     private fun getNoteById(id: Int) {
         viewModelScope.launch {
-            repository.getNoteById(id).collectLatest { note ->
+            getNoteByIdUseCase(id).collectLatest { note ->
                 if (note != null) {
                     noteTitle = noteTitle.copy(text = note.title)
                     noteContent = noteContent.copy(text = note.content)
