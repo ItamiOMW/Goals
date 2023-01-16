@@ -7,26 +7,33 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.goals.domain.models.SubTask
 import com.example.goals.domain.models.Task
-import com.example.goals.domain.repository.TasksRepository
+import com.example.goals.domain.usecases.task_usecases.CompleteSubTaskUseCase
+import com.example.goals.domain.usecases.task_usecases.CompleteTaskUseCase
+import com.example.goals.domain.usecases.task_usecases.GetTasksByDateUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class TasksViewModel @Inject constructor(
-    private val repository: TasksRepository,
+    private val completeTaskUseCase: CompleteTaskUseCase,
+    private val completeSubTaskUseCase: CompleteSubTaskUseCase,
+    private val getTasksByDateUseCase: GetTasksByDateUseCase
 ) : ViewModel() {
 
-    private var _state by mutableStateOf(TasksState())
-    val state: TasksState
-        get() = _state
+    var state by mutableStateOf(TasksState())
+        private set
+
+    init {
+        getTasksByDate(state.date)
+    }
 
 
     fun onEvent(event: TasksEvent) {
         when (event) {
             is TasksEvent.GetTasksByDate -> {
-                _state = state.copy(date = event.date)
-                getTasks(event.date)
+                state = state.copy(date = event.date)
+                getTasksByDate(event.date)
             }
             is TasksEvent.OnCompleteSubTask -> {
                 completeSubTask(event.subTask, event.task)
@@ -39,20 +46,20 @@ class TasksViewModel @Inject constructor(
 
     private fun completeTask(task: Task) {
         viewModelScope.launch {
-            repository.completeTask(task)
+            completeTaskUseCase(task)
         }
     }
 
     private fun completeSubTask(subTask: SubTask, task: Task) {
         viewModelScope.launch {
-            repository.completeSubTask(subTask, task)
+            completeSubTaskUseCase(subTask, task)
         }
     }
 
-    private fun getTasks(date: String) {
+    private fun getTasksByDate(date: String) {
         viewModelScope.launch {
-            repository.getTasksByDate(date).collect { list ->
-                _state = state.copy(listTasksByDate = list)
+            getTasksByDateUseCase(date).collect { list ->
+                state = state.copy(listTasksByDate = list)
             }
         }
     }

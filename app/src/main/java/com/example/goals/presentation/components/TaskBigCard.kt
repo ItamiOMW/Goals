@@ -1,5 +1,6 @@
 package com.example.goals.presentation.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
@@ -30,9 +31,7 @@ fun TaskBigCard(
     onSubTaskIconCheckClick: (SubTask, Task) -> Unit,
     onTaskIconCheckClick: (Task) -> Unit,
 ) {
-    Box(modifier = modifier
-
-    ) {
+    Box(modifier = modifier.background(Color(task.color))) {
         Column(modifier = Modifier.padding(10.dp)) {
             Row(
                 horizontalArrangement = Arrangement.Center,
@@ -55,13 +54,15 @@ fun TaskBigCard(
                 Spacer(modifier = Modifier.width(10.dp))
                 Text(
                     text = task.title,
-                    style = TextStyle(color = Color.Black,
+                    style = TextStyle(
+                        color = Color.Black,
                         fontSize = 25.sp,
                         fontWeight = FontWeight.Bold,
                         fontFamily = fonts,
                         textDecoration = if (task.isCompleted) TextDecoration.LineThrough
                         else TextDecoration.None
-                    )
+                    ),
+                    modifier = Modifier.align(Alignment.CenterVertically)
                 )
             }
             Spacer(modifier = Modifier.height(10.dp))
@@ -80,16 +81,19 @@ fun TaskBigCard(
                     tint = Color.Black,
                     painter = painterResource(id = drawable.ic_time),
                     contentDescription = stringResource(string.ic_time),
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier.size(24.dp).align(Alignment.CenterVertically)
                 )
                 Spacer(modifier = Modifier.width(7.dp))
                 val timeStart = task.scheduledTimeStart.timeSecondsToString()
                 val timeEnd = task.scheduledTimeEnd.timeSecondsToString()
                 Text(text = "$timeStart-$timeEnd",
-                    style = TextStyle(color = Color.Black,
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Normal,
-                        fontFamily = fonts))
+                    style = TextStyle(
+                        color = Color.Black,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = fonts),
+                    modifier = Modifier.align(Alignment.CenterVertically)
+                )
             }
             Spacer(modifier = Modifier.height(15.dp))
             Column(
@@ -103,7 +107,13 @@ fun TaskBigCard(
                         },
                         modifier = Modifier
                             .padding(top = 15.dp, bottom = 15.dp)
-                            .fillMaxWidth()
+                            .fillMaxWidth(),
+                        textStyle = TextStyle(
+                            fontSize = 14.sp,
+                            color = Color.Black,
+                            fontFamily = fonts,
+                            fontWeight = FontWeight.Bold,
+                        )
                     )
                 }
             }

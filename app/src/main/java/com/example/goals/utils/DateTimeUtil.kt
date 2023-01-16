@@ -21,6 +21,10 @@ fun getCurrentDateString(): String {
     return LocalDate.now().toString()
 }
 
+fun getCurrentTimeSeconds(): Long {
+    return LocalTime.now().toSecondOfDay().toLong()
+}
+
 fun getDateDaysInAdvance(daysToAdd: Long): String {
     return LocalDate.now().plusDays(daysToAdd).toString()
 }

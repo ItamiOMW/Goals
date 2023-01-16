@@ -48,12 +48,10 @@ fun AddEditTaskScreen(
     val colorState = Color(viewModel.taskColor)
     val dateState = viewModel.date
     val timeStartState = viewModel.timeStart
-    val timeStartErrorState = viewModel.timeStartError
     val timeEndState = viewModel.timeEnd
-    val timeEndErrorState = viewModel.timeEndError
     val subTasksState = viewModel.subTasks
-    val chosenSubTaskIndexState = viewModel.chosenSubTaskIndex
     val bottomSheetTextState = viewModel.bottomSheetText
+    val chosenSubTaskIndex = viewModel.chosenSubTaskIndex
 
 
     val context = LocalContext.current
@@ -136,7 +134,7 @@ fun AddEditTaskScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = if (chosenSubTaskIndexState != null) stringResource(R.string.edit_subtask)
+                    text = if (chosenSubTaskIndex != null) stringResource(R.string.edit_subtask)
                     else stringResource(R.string.new_subtask),
                     style = TextStyle(
                         color = colorState,
@@ -148,7 +146,6 @@ fun AddEditTaskScreen(
                 )
                 CustomTextField(
                     state = bottomSheetTextState,
-                    color = colorState,
                     onValueChange = { string ->
                         viewModel.onEvent(AddEditTaskEvent.BottomSheetTextChange(string))
                     },
@@ -157,18 +154,20 @@ fun AddEditTaskScreen(
                         color = colorState,
                         fontWeight = FontWeight.Bold,
                         fontSize = 20.sp
-                    )
+                    ),
+                    modifier = Modifier.fillMaxWidth(),
+                    color = colorState
                 )
-                if (chosenSubTaskIndexState != null) {
+                if (chosenSubTaskIndex != null) {
                     Icon(
                         painter = painterResource(id = R.drawable.trash),
-                        contentDescription = stringResource(id = R.string.delete_current_subgoal_desc),
+                        contentDescription = stringResource(id = R.string.delete_current_subtask_desc),
                         modifier = Modifier
                             .padding(5.dp)
                             .size(25.dp)
                             .align(Alignment.End)
                             .clickable {
-                                viewModel.onEvent(AddEditTaskEvent.DeleteSubTask)
+                                viewModel.onEvent(AddEditTaskEvent.DeleteSubTask(chosenSubTaskIndex))
                                 bottomSheetCoroutineScope.launch {
                                     bottomSheetState.hide()
                                 }
@@ -177,7 +176,12 @@ fun AddEditTaskScreen(
                 }
                 Button(
                     onClick = {
-                        viewModel.onEvent(AddEditTaskEvent.SaveSubTask)
+                        viewModel.onEvent(
+                            AddEditTaskEvent.SaveSubTask(
+                                bottomSheetTextState.text,
+                                chosenSubTaskIndex
+                            )
+                        )
                         bottomSheetCoroutineScope.launch {
                             bottomSheetState.hide()
                         }
@@ -415,7 +419,7 @@ fun AddEditTaskScreen(
                             )
                         }
                         Divider(
-                            color = if (timeStartErrorState == null) TextWhite else Color.Red,
+                            color = TextWhite,
                         )
                     }
                     Column(
@@ -460,7 +464,7 @@ fun AddEditTaskScreen(
                             )
                         }
                         Divider(
-                            color = if (timeEndErrorState == null) TextWhite else Color.Red,
+                            color = TextWhite
                         )
                     }
                 }
@@ -485,15 +489,15 @@ fun AddEditTaskScreen(
                         )
                     )
                     Icon(painter = painterResource(
-                        id = R.drawable.ic_add),
+                        id = R.drawable.ic_add
+                    ),
                         contentDescription = stringResource(R.string.add_new_subtask_desc),
                         modifier = Modifier
                             .size(35.dp)
                             .align(Alignment.CenterVertically)
                             .clickable {
-                                viewModel.onEvent(
-                                    AddEditTaskEvent.BottomSheetTextChange(EMPTY_STRING)
-                                )
+                                viewModel.onEvent(AddEditTaskEvent.SubTaskItemSelected(null))
+                                viewModel.onEvent(AddEditTaskEvent.BottomSheetTextChange(EMPTY_STRING))
                                 bottomSheetCoroutineScope.launch {
                                     bottomSheetState.show()
                                 }
@@ -517,6 +521,7 @@ fun AddEditTaskScreen(
                                 .padding(10.dp)
                                 .clickable {
                                     viewModel.onEvent(AddEditTaskEvent.SubTaskItemSelected(i))
+                                    viewModel.onEvent(AddEditTaskEvent.BottomSheetTextChange(subTask.title))
                                     bottomSheetCoroutineScope.launch {
                                         bottomSheetState.show()
                                     }
