@@ -36,7 +36,7 @@ class GoalsRepositoryImpl @Inject constructor(
 
     override suspend fun completeGoal(goal: Goal) {
         val goalToUpdate = goal.copy(isReached = !goal.isReached, subGoals = goal.subGoals.map {
-            it.copy(isCompleted = true)
+            it.copy(isCompleted = !goal.isReached)
         })
         dao.updateGoal(goalToUpdate)
     }

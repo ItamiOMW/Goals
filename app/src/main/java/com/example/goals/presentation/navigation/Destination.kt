@@ -20,6 +20,8 @@ sealed class Destination(val route: String) {
 
     object NoteInfoScreen: Destination(NOTE_INFO_SCREEN_ROUTE)
 
+    object TaskInfoScreen: Destination(TASK_INFO_SCREEN_ROUTE)
+
     companion object {
 
         private const val HOME_SCREEN_ROUTE = "home"
@@ -39,6 +41,8 @@ sealed class Destination(val route: String) {
         private const val GOAL_INFO_SCREEN_ROUTE = "goal_info"
 
         private const val NOTE_INFO_SCREEN_ROUTE = "note_info"
+
+        private const val TASK_INFO_SCREEN_ROUTE = "task_info"
 
         const val GOAL_ID_ARG = "goalId"
 

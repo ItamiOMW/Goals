@@ -1,4 +1,4 @@
-package com.example.goals.presentation.screens.goal_info_screen
+package com.example.goals.presentation.screens.task_info_screen
 
 import android.widget.Toast
 import androidx.compose.foundation.clickable
@@ -24,25 +24,27 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.goals.R
-import com.example.goals.presentation.components.SubGoal
-import com.example.goals.presentation.navigation.Destination.AddEditGoalScreen
-import com.example.goals.presentation.navigation.Destination.Companion.GOAL_ID_ARG
+import com.example.goals.presentation.components.SubTask
+import com.example.goals.presentation.navigation.Destination
 import com.example.goals.presentation.ui.theme.GrayShadeLight
 import com.example.goals.presentation.ui.theme.TextWhite
 import com.example.goals.presentation.ui.theme.fonts
 import com.example.goals.utils.EMPTY_STRING
 import com.example.goals.utils.formatDate
+import com.example.goals.utils.timeSecondsToString
 import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun GoalInfoScreen(
-    viewModel: GoalInfoViewModel = hiltViewModel(),
+fun TaskInfoScreen(
+    viewModel: TaskInfoViewModel = hiltViewModel(),
     navController: NavController,
 ) {
-    val goalState = viewModel.currentGoal
-    val goalColor = goalState?.color?.let { Color(it) } ?: TextWhite
+
+    //States
+    val currentTask = viewModel.currentTask
+    val taskColor = currentTask?.color?.let { Color(it) } ?: TextWhite
 
     //Context to show the toast
     val currentContext = LocalContext.current
@@ -50,10 +52,10 @@ fun GoalInfoScreen(
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collect { uiEvent ->
             when (uiEvent) {
-                is GoalInfoUiEvent.GoalDeleted -> {
+                is TaskInfoUiEvent.TaskDeleted -> {
                     navController.navigateUp()
                 }
-                is GoalInfoUiEvent.ShowToast -> {
+                is TaskInfoUiEvent.ShowToast -> {
                     Toast.makeText(currentContext, uiEvent.message, Toast.LENGTH_SHORT).show()
                 }
             }
@@ -71,8 +73,7 @@ fun GoalInfoScreen(
 
     var customSheetContent by remember { mutableStateOf(sheetInitialContent) }
 
-
-    if (goalState != null) {
+    if (currentTask != null) {
         ModalBottomSheetLayout(
             sheetShape = RoundedCornerShape(10.dp, 10.dp),
             sheetBackgroundColor = GrayShadeLight,
@@ -108,7 +109,7 @@ fun GoalInfoScreen(
                                 }
                         )
                         Text(
-                            text = stringResource(id = R.string.goal),
+                            text = stringResource(R.string.task),
                             style = TextStyle(
                                 color = TextWhite,
                                 fontFamily = fonts,
@@ -128,25 +129,25 @@ fun GoalInfoScreen(
                                     .align(Alignment.CenterVertically)
                                     .clickable {
                                         navController.navigate(
-                                            route = AddEditGoalScreen.route +
-                                                    "?$GOAL_ID_ARG=${goalState.id}"
+                                            route = Destination.AddEditTaskScreen.route +
+                                                    "?${Destination.TASK_ID_ARG}=${currentTask.id}"
                                         )
                                     }
                             )
                             Spacer(modifier = Modifier.width(10.dp))
                             Icon(
                                 painter = painterResource(id = R.drawable.trash),
-                                contentDescription = stringResource(R.string.delete_goal_desc),
+                                contentDescription = stringResource(R.string.delete_task_desc),
                                 modifier = Modifier
                                     .size(28.dp)
                                     .align(Alignment.CenterVertically)
                                     .clickable {
                                         customSheetContent = {
-                                            BottomSheetContentDeleteGoal(
-                                                goalColor = goalColor,
+                                            BottomSheetContentDeleteTask(
+                                                taskColor = taskColor,
                                                 deleteButtonClicked = {
                                                     bottomSheetScope.launch {
-                                                        viewModel.onEvent(GoalInfoEvent.DeleteGoal)
+                                                        viewModel.onEvent(TaskInfoEvent.DeleteTask)
                                                         bottomSheetState.hide()
                                                     }
                                                 },
@@ -166,13 +167,14 @@ fun GoalInfoScreen(
                     }
                 }
                 Text(
-                    text = if (goalState.isReached) stringResource(R.string.achieved) else stringResource(R.string.not_achieved),
+                    text = if (currentTask.isCompleted) stringResource(R.string.completed_title)
+                    else stringResource(R.string.uncompleted_title),
                     style = TextStyle(
-                        color = goalColor,
+                        color = taskColor,
                         fontFamily = fonts,
                         fontWeight = FontWeight.ExtraBold,
                         fontSize = 26.sp,
-                        textDecoration = if (goalState.isReached) TextDecoration.LineThrough
+                        textDecoration = if (currentTask.isCompleted) TextDecoration.LineThrough
                         else TextDecoration.None,
                     ),
                     modifier = Modifier.align(Alignment.CenterHorizontally)
@@ -186,17 +188,17 @@ fun GoalInfoScreen(
                     Text(
                         text = stringResource(id = R.string.title),
                         style = TextStyle(
-                            color = goalColor,
+                            color = taskColor,
                             fontFamily = fonts,
                             fontWeight = FontWeight.ExtraBold,
                             fontSize = 26.sp
                         )
                     )
                     BasicText(
-                        text = goalState.title,
+                        text = currentTask.title,
                         style = TextStyle(
                             fontFamily = fonts,
-                            color = goalColor,
+                            color = taskColor,
                             fontWeight = FontWeight.Bold,
                             fontSize = 20.sp
                         )
@@ -214,17 +216,17 @@ fun GoalInfoScreen(
                     Text(
                         text = stringResource(id = R.string.content),
                         style = TextStyle(
-                            color = goalColor,
+                            color = taskColor,
                             fontFamily = fonts,
                             fontWeight = FontWeight.ExtraBold,
                             fontSize = 26.sp
                         )
                     )
                     BasicText(
-                        text = goalState.content,
+                        text = currentTask.content,
                         style = TextStyle(
                             fontFamily = fonts,
-                            color = goalColor,
+                            color = taskColor,
                             fontWeight = FontWeight.Bold,
                             fontSize = 20.sp
                         )
@@ -240,9 +242,9 @@ fun GoalInfoScreen(
                         .padding(10.dp)
                 ) {
                     Text(
-                        text = stringResource(R.string.start_date),
+                        text = stringResource(id = R.string.date),
                         style = TextStyle(
-                            color = goalColor,
+                            color = taskColor,
                             fontFamily = fonts,
                             fontWeight = FontWeight.ExtraBold,
                             fontSize = 26.sp
@@ -253,10 +255,10 @@ fun GoalInfoScreen(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         BasicText(
-                            text = goalState.startDate.formatDate(),
+                            text = currentTask.scheduledDate.formatDate(),
                             style = TextStyle(
                                 fontFamily = fonts,
-                                color = goalColor,
+                                color = taskColor,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 20.sp
                             )
@@ -276,42 +278,93 @@ fun GoalInfoScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .shadow(5.dp, RoundedCornerShape(10.dp))
-                        .padding(10.dp)
                 ) {
-                    Text(
-                        text = stringResource(id = R.string.deadline),
-                        style = TextStyle(
-                            color = goalColor,
-                            fontFamily = fonts,
-                            fontWeight = FontWeight.ExtraBold,
-                            fontSize = 26.sp
-                        )
-                    )
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        BasicText(
-                            text = goalState.endDate.formatDate(),
-                            style = TextStyle(
-                                fontFamily = fonts,
-                                color = goalColor,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 20.sp
-                            )
-                        )
-                        Icon(painter = painterResource(
-                            id = R.drawable.calendar),
-                            contentDescription = stringResource(R.string.calendar_desc),
+                    Row() {
+                        Column(
                             modifier = Modifier
-                                .padding(end = 5.dp)
-                                .size(25.dp)
-                        )
+                                .weight(1f)
+                                .shadow(5.dp, RoundedCornerShape(10.dp))
+                                .padding(10.dp)
+                        ) {
+                            Text(
+                                text = stringResource(R.string.start_time),
+                                style = TextStyle(
+                                    color = taskColor,
+                                    fontFamily = fonts,
+                                    fontWeight = FontWeight.ExtraBold,
+                                    fontSize = 26.sp
+                                )
+                            )
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                BasicText(
+                                    text = currentTask.scheduledTimeStart.timeSecondsToString(),
+                                    style = TextStyle(
+                                        fontFamily = fonts,
+                                        color = taskColor,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 20.sp
+                                    )
+                                )
+                                Icon(
+                                    painter = painterResource(
+                                        id = R.drawable.ic_time
+                                    ),
+                                    contentDescription = stringResource(R.string.clock_desc),
+                                    modifier = Modifier
+                                        .padding(end = 5.dp)
+                                        .size(25.dp)
+                                )
+                            }
+                            Divider(
+                                color = TextWhite
+                            )
+                        }
+                        Column(
+                            modifier = Modifier
+                                .weight(1f)
+                                .shadow(5.dp, RoundedCornerShape(10.dp))
+                                .padding(10.dp)
+                        ) {
+                            Text(
+                                text = stringResource(R.string.end_time),
+                                style = TextStyle(
+                                    color = taskColor,
+                                    fontFamily = fonts,
+                                    fontWeight = FontWeight.ExtraBold,
+                                    fontSize = 26.sp
+                                )
+                            )
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                BasicText(
+                                    text = currentTask.scheduledTimeEnd.timeSecondsToString(),
+                                    style = TextStyle(
+                                        fontFamily = fonts,
+                                        color = taskColor,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 20.sp
+                                    )
+                                )
+                                Icon(
+                                    painter = painterResource(
+                                        id = R.drawable.ic_time
+                                    ),
+                                    contentDescription = stringResource(R.string.clock_desc),
+                                    modifier = Modifier
+                                        .padding(end = 5.dp)
+                                        .size(25.dp)
+                                )
+                            }
+                            Divider(
+                                color = TextWhite
+                            )
+                        }
                     }
-                    Divider(
-                        color = TextWhite,
-                    )
                 }
                 Column(
                     modifier = Modifier
@@ -320,9 +373,9 @@ fun GoalInfoScreen(
                         .padding(10.dp)
                 ) {
                     Text(
-                        text = stringResource(id = R.string.sub_goals),
+                        text = stringResource(id = R.string.sub_tasks),
                         style = TextStyle(
-                            color = goalColor,
+                            color = taskColor,
                             fontFamily = fonts,
                             fontWeight = FontWeight.ExtraBold,
                             fontSize = 26.sp
@@ -333,13 +386,13 @@ fun GoalInfoScreen(
                             .fillMaxWidth()
                             .wrapContentHeight()
                     ) {
-                        goalState.subGoals.forEachIndexed { i, subGoal ->
-                            SubGoal(
-                                subGoal = subGoal,
+                        currentTask.subTasks.forEachIndexed { i, subTask ->
+                            SubTask(
+                                subTask = subTask,
                                 onCheckBoxClick = { subGoalToChange ->
-                                    viewModel.onEvent(GoalInfoEvent.ChangeSubGoalCompleteness(
+                                    viewModel.onEvent(TaskInfoEvent.ChangeSubTaskCompleteness(
                                         subGoalToChange,
-                                        goalState)
+                                        currentTask)
                                     )
                                 },
                                 modifier = Modifier
@@ -347,11 +400,11 @@ fun GoalInfoScreen(
                                     .fillMaxHeight()
                                     .padding(10.dp),
                                 textStyle = TextStyle(
-                                    color = goalColor,
+                                    color = taskColor,
                                     fontSize = 18.sp,
                                     fontWeight = FontWeight.Bold,
                                     fontFamily = fonts,
-                                    textDecoration = if (goalState.subGoals[i].isCompleted) {
+                                    textDecoration = if (currentTask.subTasks[i].isCompleted) {
                                         TextDecoration.LineThrough
                                     } else TextDecoration.None
                                 )
@@ -365,12 +418,12 @@ fun GoalInfoScreen(
                 Button(
                     onClick = {
                         customSheetContent = {
-                            BottomSheetContentCompleteGoal(
-                                isGoalCompleted = goalState.isReached,
-                                goalColor = goalColor,
+                            BottomSheetContentCompleteTask(
+                                isTaskCompleted = currentTask.isCompleted,
+                                taskColor = taskColor,
                                 positiveButtonClicked = {
                                     bottomSheetScope.launch {
-                                        viewModel.onEvent(GoalInfoEvent.CompleteGoal)
+                                        viewModel.onEvent(TaskInfoEvent.CompleteTask)
                                         bottomSheetState.hide()
                                     }
                                 },
@@ -394,10 +447,10 @@ fun GoalInfoScreen(
                     )
                 ) {
                     Text(
-                        text = if (goalState.isReached) stringResource(id = R.string.uncomplete)
-                        else stringResource(R.string.complete_goal),
+                        text = if (currentTask.isCompleted) stringResource(id = R.string.uncomplete)
+                        else stringResource(R.string.complete_task),
                         style = TextStyle(
-                            color = goalColor,
+                            color = taskColor,
                             fontSize = 17.sp,
                             fontFamily = fonts,
                             fontWeight = FontWeight.Bold
@@ -407,14 +460,13 @@ fun GoalInfoScreen(
             }
         }
     }
-
 }
 
 
 @Composable
-fun BottomSheetContentCompleteGoal(
-    isGoalCompleted: Boolean,
-    goalColor: Color,
+fun BottomSheetContentCompleteTask(
+    isTaskCompleted: Boolean,
+    taskColor: Color,
     positiveButtonClicked: () -> Unit,
     cancelButtonClicked: () -> Unit,
 ) {
@@ -426,10 +478,10 @@ fun BottomSheetContentCompleteGoal(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = if (isGoalCompleted) stringResource(R.string.make_goal_uncompleted_question)
-            else stringResource(R.string.complete_goal_question),
+            text = if (isTaskCompleted) stringResource(R.string.make_task_uncompleted_question)
+            else stringResource(R.string.complete_task_question),
             style = TextStyle(
-                color = goalColor,
+                color = taskColor,
                 fontFamily = fonts,
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp
@@ -452,7 +504,7 @@ fun BottomSheetContentCompleteGoal(
                 Text(
                     text = stringResource(R.string.cancel),
                     style = TextStyle(
-                        color = goalColor,
+                        color = taskColor,
                         fontSize = 17.sp,
                         fontFamily = fonts,
                         fontWeight = FontWeight.Bold
@@ -471,10 +523,10 @@ fun BottomSheetContentCompleteGoal(
                 )
             ) {
                 Text(
-                    text = if (isGoalCompleted) stringResource(R.string.uncomplete)
+                    text = if (isTaskCompleted) stringResource(R.string.uncomplete)
                     else stringResource(R.string.complete),
                     style = TextStyle(
-                        color = goalColor,
+                        color = taskColor,
                         fontSize = 17.sp,
                         fontFamily = fonts,
                         fontWeight = FontWeight.Bold
@@ -487,8 +539,8 @@ fun BottomSheetContentCompleteGoal(
 
 
 @Composable
-fun BottomSheetContentDeleteGoal(
-    goalColor: Color,
+fun BottomSheetContentDeleteTask(
+    taskColor: Color,
     deleteButtonClicked: () -> Unit,
     cancelButtonClicked: () -> Unit,
 ) {
@@ -500,9 +552,9 @@ fun BottomSheetContentDeleteGoal(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = stringResource(R.string.delete_this_goal_question),
+            text = stringResource(R.string.delete_this_task_question),
             style = TextStyle(
-                color = goalColor,
+                color = taskColor,
                 fontFamily = fonts,
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp
@@ -523,7 +575,7 @@ fun BottomSheetContentDeleteGoal(
                 Text(
                     text = stringResource(R.string.cancel),
                     style = TextStyle(
-                        color = goalColor,
+                        color = taskColor,
                         fontSize = 17.sp,
                         fontFamily = fonts,
                         fontWeight = FontWeight.Bold
@@ -544,7 +596,7 @@ fun BottomSheetContentDeleteGoal(
                 Text(
                     text = stringResource(id = R.string.delete),
                     style = TextStyle(
-                        color = goalColor,
+                        color = taskColor,
                         fontSize = 17.sp,
                         fontFamily = fonts,
                         fontWeight = FontWeight.Bold

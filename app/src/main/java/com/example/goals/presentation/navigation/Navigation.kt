@@ -18,6 +18,7 @@ import com.example.goals.presentation.screens.goals_screen.GoalsScreen
 import com.example.goals.presentation.screens.home_screen.HomeScreen
 import com.example.goals.presentation.screens.note_info_screen.NoteInfoScreen
 import com.example.goals.presentation.screens.notes_screen.NotesScreen
+import com.example.goals.presentation.screens.task_info_screen.TaskInfoScreen
 import com.example.goals.presentation.screens.tasks_screen.TasksScreen
 import com.example.goals.utils.UNKNOWN_ID
 
@@ -26,10 +27,10 @@ import com.example.goals.utils.UNKNOWN_ID
 fun Navigation(navHostController: NavHostController) {
     NavHost(navController = navHostController, startDestination = HomeScreen.route) {
         composable(route = HomeScreen.route) {
-            HomeScreen()
+            HomeScreen(navController = navHostController)
         }
         composable(route = TasksScreen.route) {
-            TasksScreen()
+            TasksScreen(navController = navHostController)
         }
         composable(route = GoalsScreen.route) {
             GoalsScreen(navController = navHostController)
@@ -94,6 +95,17 @@ fun Navigation(navHostController: NavHostController) {
             )
         ) { entry ->
             NoteInfoScreen(navController = navHostController)
+        }
+        composable(
+            route = TaskInfoScreen.route + "?${TASK_ID_ARG}={$TASK_ID_ARG}",
+            arguments = listOf(
+                navArgument(TASK_ID_ARG) {
+                    type = NavType.IntType
+                    nullable
+                }
+            )
+        ) {
+            TaskInfoScreen(navController = navHostController)
         }
     }
 }

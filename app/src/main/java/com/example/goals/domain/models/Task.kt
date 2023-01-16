@@ -19,7 +19,3 @@ data class Task(
 )
 
 class TaskTitleIsEmptyException() : Exception()
-
-class TaskTimeStartIsEmptyException(): Exception()
-
-class TaskTimeEndIsEmptyException(): Exception()

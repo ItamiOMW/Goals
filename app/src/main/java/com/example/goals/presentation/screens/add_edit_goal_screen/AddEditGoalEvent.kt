@@ -2,9 +2,9 @@ package com.example.goals.presentation.screens.add_edit_goal_screen
 
 sealed class AddEditGoalEvent {
 
-    data class BottomSheetTextChanged(val text: String): AddEditGoalEvent()
+    data class BottomSheetTextChanged(val text: String) : AddEditGoalEvent()
 
-    data class SubGoalItemSelected(val index: Int): AddEditGoalEvent()
+    data class SubGoalItemSelected(val index: Int?): AddEditGoalEvent()
 
     data class DeadlineChange(val deadline: String) : AddEditGoalEvent()
 
@@ -16,9 +16,9 @@ sealed class AddEditGoalEvent {
 
     object SaveGoal : AddEditGoalEvent()
 
-    object SaveSubGoal: AddEditGoalEvent()
+    data class SaveSubGoal(val title: String, val index: Int?) : AddEditGoalEvent()
 
-    object DeleteSubGoal : AddEditGoalEvent()
+    data class DeleteSubGoal(val index: Int) : AddEditGoalEvent()
 
     data class ChangeSubGoalCompleteness(val indexSubGoal: Int) : AddEditGoalEvent()
 

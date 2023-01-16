@@ -51,7 +51,7 @@ fun AddEditGoalScreen(
     val subGoalsState = viewModel.subGoals
     val goalColorState = Color(viewModel.goalColor)
     val bottomSheetTextState = viewModel.bottomSheetText
-    val chosenSubGoalIndexState = viewModel.chosenSubGoalIndex
+    val chosenSubGoalIndex = viewModel.chosenSubGoalIndex
 
     //Context to show toast
     val context = LocalContext.current
@@ -107,7 +107,7 @@ fun AddEditGoalScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = if (chosenSubGoalIndexState != null) stringResource(R.string.edit_subgoal)
+                    text = if (chosenSubGoalIndex != null) stringResource(R.string.edit_subgoal)
                     else stringResource(R.string.new_subgoal),
                     style = TextStyle(
                         color = goalColorState,
@@ -117,20 +117,21 @@ fun AddEditGoalScreen(
                     ),
                     modifier = Modifier.fillMaxWidth()
                 )
-                TextField(
-                    value = bottomSheetTextState,
+                CustomTextField(
+                    state = bottomSheetTextState,
                     onValueChange = { string ->
                         viewModel.onEvent(AddEditGoalEvent.BottomSheetTextChanged(string))
                     },
                     textStyle = TextStyle(
-                        color = goalColorState,
-                        fontSize = 15.sp,
                         fontFamily = fonts,
-                        fontWeight = FontWeight.Bold
+                        color = goalColorState,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp
                     ),
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    color = goalColorState
                 )
-                if (chosenSubGoalIndexState != null) {
+                if (chosenSubGoalIndex != null) {
                     Icon(
                         painter = painterResource(id = R.drawable.trash),
                         contentDescription = stringResource(id = R.string.delete_current_subgoal_desc),
@@ -139,7 +140,7 @@ fun AddEditGoalScreen(
                             .size(25.dp)
                             .align(Alignment.End)
                             .clickable {
-                                viewModel.onEvent(AddEditGoalEvent.DeleteSubGoal)
+                                viewModel.onEvent(AddEditGoalEvent.DeleteSubGoal(chosenSubGoalIndex))
                                 bottomSheetCoroutineScope.launch {
                                     bottomSheetState.hide()
                                 }
@@ -148,7 +149,12 @@ fun AddEditGoalScreen(
                 }
                 Button(
                     onClick = {
-                        viewModel.onEvent(AddEditGoalEvent.SaveSubGoal)
+                        viewModel.onEvent(
+                            AddEditGoalEvent.SaveSubGoal(
+                                bottomSheetTextState.text,
+                                chosenSubGoalIndex
+                            )
+                        )
                         bottomSheetCoroutineScope.launch {
                             bottomSheetState.hide()
                         }
@@ -325,8 +331,10 @@ fun AddEditGoalScreen(
                             fontSize = 20.sp
                         )
                     )
-                    Icon(painter = painterResource(
-                        id = R.drawable.calendar),
+                    Icon(
+                        painter = painterResource(
+                            id = R.drawable.calendar
+                        ),
                         contentDescription = stringResource(R.string.calendar_desc),
                         modifier = Modifier
                             .padding(end = 5.dp)
@@ -357,17 +365,15 @@ fun AddEditGoalScreen(
                         )
                     )
                     Icon(painter = painterResource(
-                        id = R.drawable.ic_add),
+                        id = R.drawable.ic_add
+                    ),
                         contentDescription = stringResource(id = R.string.add_new_subgoal),
                         modifier = Modifier
                             .size(35.dp)
                             .align(Alignment.CenterVertically)
                             .clickable {
-                                viewModel.onEvent(
-                                    AddEditGoalEvent.BottomSheetTextChanged(
-                                        EMPTY_STRING
-                                    )
-                                )
+                                viewModel.onEvent(AddEditGoalEvent.SubGoalItemSelected(null))
+                                viewModel.onEvent(AddEditGoalEvent.BottomSheetTextChanged(EMPTY_STRING))
                                 bottomSheetCoroutineScope.launch {
                                     bottomSheetState.show()
                                 }
@@ -391,6 +397,7 @@ fun AddEditGoalScreen(
                                 .padding(10.dp)
                                 .clickable {
                                     viewModel.onEvent(AddEditGoalEvent.SubGoalItemSelected(i))
+                                    viewModel.onEvent(AddEditGoalEvent.BottomSheetTextChanged(subGoal.title))
                                     bottomSheetCoroutineScope.launch {
                                         bottomSheetState.show()
                                     }

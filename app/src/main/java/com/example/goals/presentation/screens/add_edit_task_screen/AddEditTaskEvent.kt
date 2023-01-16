@@ -4,13 +4,13 @@ sealed class AddEditTaskEvent {
 
     object SaveTask: AddEditTaskEvent()
 
-    object SaveSubTask: AddEditTaskEvent()
+    data class SaveSubTask(val title: String, val index: Int?): AddEditTaskEvent()
 
-    object DeleteSubTask : AddEditTaskEvent()
+    data class DeleteSubTask(val index: Int) : AddEditTaskEvent()
+
+    data class SubTaskItemSelected(val index: Int?): AddEditTaskEvent()
 
     data class ChangeSubTaskCompleteness(val subTaskIndex: Int): AddEditTaskEvent()
-
-    data class SubTaskItemSelected(val index: Int): AddEditTaskEvent()
 
     data class TitleTextChange(val text: String): AddEditTaskEvent()
 

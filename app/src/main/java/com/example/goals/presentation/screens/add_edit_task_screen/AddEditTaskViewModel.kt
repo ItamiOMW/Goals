@@ -15,10 +15,7 @@ import com.example.goals.domain.usecases.task_usecases.EditTaskUseCase
 import com.example.goals.domain.usecases.task_usecases.GetTaskByIdUseCase
 import com.example.goals.presentation.components.TextFieldState
 import com.example.goals.presentation.navigation.Destination.Companion.TASK_ID_ARG
-import com.example.goals.utils.EMPTY_LONG
-import com.example.goals.utils.UNKNOWN_ID
-import com.example.goals.utils.getCurrentDateString
-import com.example.goals.utils.listOfColors
+import com.example.goals.utils.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -50,16 +47,10 @@ class AddEditTaskViewModel @Inject constructor(
     var date by mutableStateOf(getCurrentDateString())
         private set
 
-    var timeStart by mutableStateOf(EMPTY_LONG)
+    var timeStart by mutableStateOf(getCurrentTimeSeconds())
         private set
 
-    var timeStartError by mutableStateOf<String?>(null)
-        private set
-
-    var timeEnd by mutableStateOf(EMPTY_LONG)
-        private set
-
-    var timeEndError by mutableStateOf<String?>(null)
+    var timeEnd by mutableStateOf(getCurrentTimeSeconds())
         private set
 
     var bottomSheetText by mutableStateOf(TextFieldState())
@@ -106,12 +97,10 @@ class AddEditTaskViewModel @Inject constructor(
                 )
             }
             is AddEditTaskEvent.SaveSubTask -> {
-                saveSubTask(bottomSheetText.text, chosenSubTaskIndex)
-                resetCurrentSubTaskIndex()
+                saveSubTask(event.title, event.index)
             }
             is AddEditTaskEvent.DeleteSubTask -> {
-                deleteSubTask(chosenSubTaskIndex)
-                resetCurrentSubTaskIndex()
+                deleteSubTask(event.index)
             }
             is AddEditTaskEvent.TitleTextChange -> {
                 taskTitle = taskTitle.copy(text = event.text, textError = null)
@@ -124,11 +113,9 @@ class AddEditTaskViewModel @Inject constructor(
             }
             is AddEditTaskEvent.StartTimeChange -> {
                 timeStart = event.time
-                timeStartError = null
             }
             is AddEditTaskEvent.EndTimeChange -> {
                 timeEnd = event.time
-                timeEndError = null
             }
             is AddEditTaskEvent.ChangeSubTaskCompleteness -> {
                 changeSubTaskCompleteness(event.subTaskIndex)
@@ -220,16 +207,6 @@ class AddEditTaskViewModel @Inject constructor(
                 _eventFlow.emit(
                     AddEditTaskUiEvent.ShowToast(application.getString(R.string.failed_title_is_empty))
                 )
-            } catch (e: TaskTimeStartIsEmptyException) {
-                timeStartError = application.getString(R.string.failed_choose_task_time_start)
-                _eventFlow.emit(
-                    AddEditTaskUiEvent.ShowToast(application.getString(R.string.failed_choose_task_time_start))
-                )
-            } catch (e: TaskTimeEndIsEmptyException) {
-                timeEndError = application.getString(R.string.failed_choose_task_time_end)
-                _eventFlow.emit(
-                    AddEditTaskUiEvent.ShowToast(application.getString(R.string.failed_choose_task_time_end))
-                )
             }
         }
     }
@@ -249,9 +226,4 @@ class AddEditTaskViewModel @Inject constructor(
             }
         }
     }
-
-    private fun resetCurrentSubTaskIndex() {
-        chosenSubTaskIndex = null
-    }
-
 }

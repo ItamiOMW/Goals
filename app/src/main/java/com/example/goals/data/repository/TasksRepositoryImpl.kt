@@ -1,6 +1,5 @@
 package com.example.goals.data.repository
 
-import android.app.Application
 import com.example.goals.data.local.dao.TasksDao
 import com.example.goals.domain.models.SubTask
 import com.example.goals.domain.models.Task
@@ -37,7 +36,11 @@ class TasksRepositoryImpl @Inject constructor(
     }
 
     override suspend fun completeTask(task: Task) {
-        dao.updateTask(task.copy(isCompleted = !task.isCompleted))
+        val taskToUpdate = task.copy(
+            isCompleted = !task.isCompleted,
+            subTasks = task.subTasks.map { it.copy(isCompleted = !task.isCompleted) }
+        )
+        dao.updateTask(taskToUpdate)
     }
 
     override suspend fun completeSubTask(subTask: SubTask, task: Task) {
@@ -49,7 +52,6 @@ class TasksRepositoryImpl @Inject constructor(
         //Updated task
         val updatedTask = task.copy(subTasks = newList)
         dao.updateTask(updatedTask)
-        dao.updateTask(task)
     }
 
     override suspend fun editTask(task: Task) {

@@ -1,7 +1,9 @@
 package com.example.goals.presentation.screens.add_edit_goal_screen
 
 import android.app.Application
-import androidx.compose.runtime.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -15,10 +17,10 @@ import com.example.goals.presentation.components.TextFieldState
 import com.example.goals.presentation.navigation.Destination.Companion.GOAL_ID_ARG
 import com.example.goals.utils.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,11 +31,13 @@ class AddEditGoalViewModel @Inject constructor(
 ) : ViewModel() {
 
     var goalTitle by mutableStateOf(
-        TextFieldState(hint = application.getString(R.string.enter_title)))
+        TextFieldState(hint = application.getString(R.string.enter_title))
+    )
         private set
 
     var goalContent by mutableStateOf(
-        TextFieldState(hint = application.getString(R.string.enter_content)))
+        TextFieldState(hint = application.getString(R.string.enter_content))
+    )
         private set
 
     var goalColor by mutableStateOf(listOfColors.first().toArgb())
@@ -45,7 +49,7 @@ class AddEditGoalViewModel @Inject constructor(
     var deadline by mutableStateOf(getDateDaysInAdvance(7)) //Default deadline is 7 days in advance from current date
         private set
 
-    var bottomSheetText by mutableStateOf(EMPTY_STRING)
+    var bottomSheetText by mutableStateOf(TextFieldState())
         private set
 
     var chosenSubGoalIndex by mutableStateOf<Int?>(null)
@@ -73,7 +77,7 @@ class AddEditGoalViewModel @Inject constructor(
                 chosenSubGoalIndex = event.index
             }
             is AddEditGoalEvent.BottomSheetTextChanged -> {
-                bottomSheetText = event.text
+                bottomSheetText = bottomSheetText.copy(text = event.text)
             }
             is AddEditGoalEvent.DeadlineChange -> {
                 deadline = event.deadline
@@ -100,17 +104,21 @@ class AddEditGoalViewModel @Inject constructor(
                 goalContent = goalContent.copy(text = event.text, textError = null)
             }
             is AddEditGoalEvent.SaveSubGoal -> {
-                saveSubGoal(bottomSheetText, chosenSubGoalIndex)
-                resetCurrentSubGoalIndex()
+                saveSubGoal(event.title, event.index)
+                resetBottomSheetText()
             }
             is AddEditGoalEvent.DeleteSubGoal -> {
-                deleteSubGoal(chosenSubGoalIndex)
-                resetCurrentSubGoalIndex()
+                deleteSubGoal(event.index)
+                resetBottomSheetText()
             }
             is AddEditGoalEvent.ChangeSubGoalCompleteness -> {
                 changeSubGoalCompleteness(event.indexSubGoal)
             }
         }
+    }
+
+    private fun resetBottomSheetText() {
+        bottomSheetText = bottomSheetText.copy(text = EMPTY_STRING)
     }
 
     private fun saveGoal(
@@ -203,10 +211,6 @@ class AddEditGoalViewModel @Inject constructor(
             newSubGoalList.add(index, subGoal.copy(isCompleted = !subGoal.isCompleted))
             subGoals = newSubGoalList
         }
-    }
-
-    private fun resetCurrentSubGoalIndex() {
-        chosenSubGoalIndex = null
     }
 
 }
