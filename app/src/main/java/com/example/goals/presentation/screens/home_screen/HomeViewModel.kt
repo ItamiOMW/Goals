@@ -7,7 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.goals.domain.models.SubTask
 import com.example.goals.domain.models.Task
-import com.example.goals.domain.repository.TasksRepository
+import com.example.goals.domain.usecases.task_usecases.CompleteSubTaskUseCase
+import com.example.goals.domain.usecases.task_usecases.CompleteTaskUseCase
+import com.example.goals.domain.usecases.task_usecases.GetTasksByDateUseCase
 import com.example.goals.utils.getCurrentDateString
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -15,7 +17,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val tasksRepository: TasksRepository,
+    private val getTasksByDateUseCase: GetTasksByDateUseCase,
+    private val completeTaskUseCase: CompleteTaskUseCase,
+    private val completeSubTaskUseCase: CompleteSubTaskUseCase
 ) : ViewModel() {
 
     private var _state by mutableStateOf(HomeState())
@@ -40,19 +44,19 @@ class HomeViewModel @Inject constructor(
 
     private fun completeTask(task: Task) {
         viewModelScope.launch {
-            tasksRepository.completeTask(task)
+            completeTaskUseCase(task)
         }
     }
 
     private fun completeSubTask(subTask: SubTask, task: Task) {
         viewModelScope.launch {
-            tasksRepository.completeSubTask(subTask, task)
+            completeSubTaskUseCase(subTask, task)
         }
     }
 
     private fun getTodaysUncompletedTasks(date: String) {
         viewModelScope.launch {
-            tasksRepository.getTasksByDate(date).collect { list ->
+            getTasksByDateUseCase(date).collect { list ->
                 _state = state.copy(todaysUncompletedTasks = list)
             }
         }

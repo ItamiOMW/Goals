@@ -9,7 +9,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.goals.R
 import com.example.goals.domain.models.Note
-import com.example.goals.domain.repository.NotesRepository
+import com.example.goals.domain.usecases.note_usecases.DeleteNoteUseCase
+import com.example.goals.domain.usecases.note_usecases.GetNoteByIdUseCase
 import com.example.goals.presentation.navigation.Destination.Companion.NOTE_ID_ARG
 import com.example.goals.utils.UNKNOWN_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +22,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NoteInfoViewModel @Inject constructor(
-    private val repository: NotesRepository,
+    private val deleteNoteUseCase: DeleteNoteUseCase,
+    private val getNoteByIdUseCase: GetNoteByIdUseCase,
     private val savedStateHandle: SavedStateHandle,
     private val application: Application
 ) : ViewModel() {
@@ -53,7 +55,7 @@ class NoteInfoViewModel @Inject constructor(
     private fun deleteNote(note: Note?) {
         if (note != null) {
             viewModelScope.launch {
-                repository.deleteNote(note)
+                deleteNoteUseCase(note)
                 _eventFlow.emit(NoteInfoUiEvent.ShowToast(application.getString(R.string.note_deleted)))
                 _eventFlow.emit(NoteInfoUiEvent.NoteDeleted)
             }
@@ -62,7 +64,7 @@ class NoteInfoViewModel @Inject constructor(
 
     private fun getNoteById(id: Int) {
         viewModelScope.launch {
-            repository.getNoteById(id).collectLatest { note ->
+            getNoteByIdUseCase(id).collectLatest { note ->
                 if (note != null) {
                     currentNote = note
                 }

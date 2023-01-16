@@ -5,14 +5,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.goals.domain.repository.GoalsRepository
+import com.example.goals.domain.usecases.goal_usecases.GetGoalsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class GoalsViewModel @Inject constructor (
-    private val repository: GoalsRepository,
+    private val getGoalsUseCase: GetGoalsUseCase,
 ) : ViewModel() {
 
     private var _state by mutableStateOf(GoalsState())
@@ -29,7 +29,7 @@ class GoalsViewModel @Inject constructor (
 
     private fun getGoals() {
         viewModelScope.launch {
-            repository.getGoals().collect { list ->
+            getGoalsUseCase().collect { list ->
                 _state = state.copy(goals = list)
             }
         }

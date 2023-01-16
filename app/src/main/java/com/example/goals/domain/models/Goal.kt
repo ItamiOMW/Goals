@@ -17,4 +17,4 @@ data class Goal(
     val id: Int = UNKNOWN_ID,
 )
 
-class InvalidGoalTitleException(message: String) : Exception(message)
+class GoalTitleIsEmptyException() : Exception()

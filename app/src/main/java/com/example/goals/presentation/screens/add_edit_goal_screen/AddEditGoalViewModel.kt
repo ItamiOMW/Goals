@@ -10,9 +10,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.goals.R
 import com.example.goals.domain.models.Goal
-import com.example.goals.domain.models.InvalidGoalTitleException
+import com.example.goals.domain.models.GoalTitleIsEmptyException
 import com.example.goals.domain.models.SubGoal
-import com.example.goals.domain.repository.GoalsRepository
+import com.example.goals.domain.usecases.goal_usecases.AddGoalUseCase
+import com.example.goals.domain.usecases.goal_usecases.EditGoalUseCase
+import com.example.goals.domain.usecases.goal_usecases.GetGoalByIdUseCase
 import com.example.goals.presentation.components.TextFieldState
 import com.example.goals.presentation.navigation.Destination.Companion.GOAL_ID_ARG
 import com.example.goals.utils.*
@@ -25,7 +27,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddEditGoalViewModel @Inject constructor(
-    private val repository: GoalsRepository,
+    private val addGoalUseCase: AddGoalUseCase,
+    private val editGoalUseCase: EditGoalUseCase,
+    private val getGoalByIdUseCase: GetGoalByIdUseCase,
     private val savedStateHandle: SavedStateHandle,
     private val application: Application,
 ) : ViewModel() {
@@ -144,23 +148,27 @@ class AddEditGoalViewModel @Inject constructor(
                     color = color
                 )
                 if (id == UNKNOWN_ID) {
-                    repository.addGoal(goal) //If id == UNKNOWN_ID then task is new and should be added
+                    addGoalUseCase(goal) //If id == UNKNOWN_ID then task is new and should be added
                     _eventFlow.emit(AddEditGoalUiEvent.ShowToast(application.getString(R.string.goal_added)))
                 } else {
-                    repository.editGoal(goal) //If id != UNKNOWN_ID then task exists and should be edited
+                    editGoalUseCase(goal) //If id != UNKNOWN_ID then task exists and should be edited
                     _eventFlow.emit(AddEditGoalUiEvent.ShowToast(application.getString(R.string.goal_edited)))
                 }
                 _eventFlow.emit(AddEditGoalUiEvent.GoalSaved)
-            } catch (e: InvalidGoalTitleException) {
-                _eventFlow.emit(AddEditGoalUiEvent.ShowToast(e.message.toString()))
-                goalTitle = goalTitle.copy(textError = e.message) //Handle error
+            } catch (e: GoalTitleIsEmptyException) {
+                _eventFlow.emit(AddEditGoalUiEvent.ShowToast(
+                    application.getString(R.string.failed_title_is_empty))
+                )
+                goalTitle = goalTitle.copy(
+                    textError = application.getString(R.string.failed_title_is_empty)
+                ) //Handle error
             }
         }
     }
 
     private fun getGoalById(id: Int) {
         viewModelScope.launch {
-            repository.getGoalById(id).collectLatest { goal ->
+            getGoalByIdUseCase(id).collectLatest { goal ->
                 if (goal != null) {
                     goalTitle = goalTitle.copy(text = goal.title)
                     goalContent = goalContent.copy(text = goal.content)
