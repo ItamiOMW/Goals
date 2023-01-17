@@ -13,6 +13,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -60,7 +61,8 @@ fun TaskBigCard(
                         fontWeight = FontWeight.Bold,
                         fontFamily = fonts,
                         textDecoration = if (task.isCompleted) TextDecoration.LineThrough
-                        else TextDecoration.None
+                        else TextDecoration.None,
+                        textAlign = TextAlign.Center
                     ),
                     modifier = Modifier.align(Alignment.CenterVertically)
                 )
@@ -68,9 +70,10 @@ fun TaskBigCard(
             Spacer(modifier = Modifier.height(10.dp))
             Text(
                 text = task.content,
-                style = TextStyle(color = Color.Black,
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Normal,
+                style = TextStyle(
+                    color = Color.Black,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold,
                     fontFamily = fonts)
             )
             Spacer(modifier = Modifier.height(15.dp))

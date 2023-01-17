@@ -14,12 +14,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.goals.R
 import com.example.goals.presentation.components.Calendar
 import com.example.goals.presentation.components.TaskBigCard
 import com.example.goals.presentation.navigation.Destination
@@ -66,11 +68,11 @@ fun TasksScreen(
             }
         } else {
             Box(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.padding(10.dp).fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "No scheduled tasks for this day ${viewModel.state.date}",
+                    text = stringResource(R.string.no_scheduled_tasks_this_day),
                     style = TextStyle(
                         color = Color.Gray,
                         fontSize = 25.sp,

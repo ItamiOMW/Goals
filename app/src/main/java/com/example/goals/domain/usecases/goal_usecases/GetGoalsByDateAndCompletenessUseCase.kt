@@ -9,23 +9,24 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class GetGoalsUseCase @Inject constructor(
-    private val repository: GoalsRepository
+class GetGoalsByDateAndCompletenessUseCase @Inject constructor(
+    private val repository: GoalsRepository,
 ) {
 
     operator fun invoke(
         goalOrder: GoalOrder = GoalOrder.Date(OrderType.Ascending),
+        isCompleted: Boolean,
     ): Flow<List<Goal>> {
-        return repository.getGoals().map { goals ->
-            when(goalOrder.orderType) {
+        return repository.getGoalsByCompleteness(isCompleted).map { goals ->
+            when (goalOrder.orderType) {
                 is OrderType.Ascending -> {
-                    when(goalOrder) {
+                    when (goalOrder) {
                         is GoalOrder.Date -> goals.sortedBy { it.startDate.formatDateToLong() }
                         is GoalOrder.Title -> goals.sortedBy { it.title.lowercase() }
                     }
                 }
                 is OrderType.Descending -> {
-                    when(goalOrder) {
+                    when (goalOrder) {
                         is GoalOrder.Date -> goals.sortedByDescending { it.startDate.formatDateToLong() }
                         is GoalOrder.Title -> goals.sortedByDescending { it.title.lowercase() }
                     }
@@ -33,5 +34,5 @@ class GetGoalsUseCase @Inject constructor(
             }
         }
     }
-}
 
+}

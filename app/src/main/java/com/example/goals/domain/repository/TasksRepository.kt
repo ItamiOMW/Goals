@@ -10,7 +10,7 @@ interface TasksRepository {
 
     fun getTasksByDate(date: String): Flow<List<Task>>
 
-    fun getUncompletedTasksByDate(date: String): Flow<List<Task>>
+    fun getTasksByDateAndCompleteness(date: String, isCompleted: Boolean): Flow<List<Task>>
 
     fun getTaskById(id: Int): Flow<Task?>
 

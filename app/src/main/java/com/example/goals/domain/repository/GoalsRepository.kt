@@ -10,6 +10,8 @@ interface GoalsRepository {
 
     fun getGoalById(id: Int): Flow<Goal?>
 
+    fun getGoalsByCompleteness(isCompleted: Boolean): Flow<List<Goal>>
+
     suspend fun addGoal(goal: Goal)
 
     suspend fun deleteGoal(goal: Goal)

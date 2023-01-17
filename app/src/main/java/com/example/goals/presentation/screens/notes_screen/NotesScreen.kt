@@ -1,14 +1,17 @@
 package com.example.goals.presentation.screens.notes_screen
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Divider
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -19,6 +22,7 @@ import androidx.navigation.NavController
 import com.example.goals.R
 import com.example.goals.presentation.components.NoteCard
 import com.example.goals.presentation.navigation.Destination
+import com.example.goals.presentation.screens.notes_screen.components.NoteOrderSection
 import com.example.goals.presentation.ui.theme.TextWhite
 import com.example.goals.presentation.ui.theme.fonts
 
@@ -32,18 +36,45 @@ fun NotesScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .padding(top = 90.dp, start = 23.dp, end = 23.dp)
     ) {
-        Text(
-            text = stringResource(R.string.notes),
-            style = TextStyle(
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(
+                text = stringResource(R.string.notes),
                 color = TextWhite,
                 fontFamily = fonts,
-                fontWeight = FontWeight.Bold,
-                fontSize = 25.sp
-            ),
-            modifier = Modifier.padding(top = 90.dp, start = 23.dp, end = 23.dp)
-        )
-        Spacer(modifier = Modifier.height(25.dp))
+                fontSize = 25.sp,
+                style = TextStyle(fontWeight = FontWeight.Bold),
+            )
+            Icon(
+                painter = painterResource(id = R.drawable.sort),
+                contentDescription = stringResource(R.string.sort_icon_desc),
+                tint = TextWhite,
+                modifier = Modifier
+                    .size(25.dp)
+                    .align(Alignment.CenterVertically)
+                    .clickable {
+                        viewModel.onEvent(NotesEvent.ToggleOrderSection)
+                    }
+            )
+        }
+        AnimatedVisibility(
+            visible = state.isOrderSectionVisible,
+        ) {
+            NoteOrderSection(
+                onOrderChange = { noteOrder ->
+                    viewModel.onEvent(NotesEvent.OrderChange(noteOrder))
+                },
+                noteOrder = state.noteOrder,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp),
+            )
+        }
+        Spacer(modifier = Modifier.height(23.dp))
         Text(
             text = "${state.notesList.size} ${stringResource(R.string.notes_capitals)}",
             style = TextStyle(color = Color.Gray,
@@ -52,14 +83,12 @@ fun NotesScreen(
                 fontFamily = fonts),
             modifier = Modifier
                 .align(Alignment.Start)
-                .padding(start = 23.dp, end = 23.dp)
         )
         Spacer(modifier = Modifier.height(2.dp))
         Divider(
             thickness = 0.5.dp,
             color = Color.Gray,
             modifier = Modifier
-                .padding(start = 23.dp, end = 23.dp)
                 .fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(10.dp))

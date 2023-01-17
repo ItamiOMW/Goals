@@ -18,6 +18,7 @@ import com.example.goals.presentation.components.TextFieldState
 import com.example.goals.presentation.navigation.Destination.Companion.NOTE_ID_ARG
 import com.example.goals.utils.UNKNOWN_ID
 import com.example.goals.utils.getCurrentDateString
+import com.example.goals.utils.getCurrentTimeSeconds
 import com.example.goals.utils.listOfColors
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -72,7 +73,8 @@ class AddEditNoteViewModel @Inject constructor(
                     noteTitle.text,
                     noteContent.text,
                     getCurrentDateString(),
-                    noteColor
+                    getCurrentTimeSeconds(),
+                    noteColor,
                 )
             }
             is AddEditNoteEvent.TitleTextChange -> {
@@ -92,11 +94,12 @@ class AddEditNoteViewModel @Inject constructor(
         title: String,
         content: String,
         date: String,
+        time: Long,
         color: Int,
     ) {
         viewModelScope.launch {
             try {
-                val note = Note(title, content, date, color, id)
+                val note = Note(title, content, date, time, color, id)
                 if (id == UNKNOWN_ID) {
                     addNoteUseCase(note) //If id == UNKNOWN_ID then note is new and should be added
                     _eventFlow.emit(AddEditNoteUiEvent.ShowToast(application.getString(R.string.note_added)))

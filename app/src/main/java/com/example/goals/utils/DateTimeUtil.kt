@@ -38,6 +38,12 @@ fun String.formatDate(): String {
     return "$dayOfMonth $month, $year"
 }
 
+fun String.formatDateToLong(): Long {
+    val dateFormatter = DateTimeFormatter.ofPattern(DATE_FORMAT)
+    val date = LocalDate.parse(this, dateFormatter)
+    return "${date.year}${date.monthValue}${date.dayOfMonth}".toLong()
+}
+
 fun formatDateToString(dayOfMonth: Int, month: Int, year: Int): String {
     return LocalDate.of(year, month, dayOfMonth).toString()
 }
