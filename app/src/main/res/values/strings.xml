@@ -84,4 +84,17 @@
     <string name="task_deleted">Task Deleted</string>
     <string name="task">Task</string>
     <string name="delete_task_desc">Delete task</string>
+    <string name="tasks_completed">TASKS COMPLETED</string>
+    <string name="sort_by">Sort by:</string>
+    <string name="no_completed_tasks_for_today">No completed tasks for today</string>
+    <string name="sort_by_time">Time</string>
+    <string name="time">Time</string>
+    <string name="sort_by_title">Title</string>
+    <string name="ascending">Ascending</string>
+    <string name="descending">Descending</string>
+    <string name="sort_icon_desc">Sort icon</string>
+    <string name="no_scheduled_tasks_this_day">No scheduled tasks for this day</string>
+    <string name="goals_in_progress">GOALS IN PROGRESS</string>
+    <string name="goals_achieved">GOALS ACHIEVED</string>
+    <string name="no_achieved_goals">No achieved goals</string>
 </resources>

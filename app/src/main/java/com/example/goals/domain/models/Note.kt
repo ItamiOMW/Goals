@@ -9,6 +9,7 @@ data class Note(
     val title: String,
     val content: String,
     val date: String,
+    val time: Long,
     val color: Int,
     @PrimaryKey(autoGenerate = true)
     val id: Int = UNKNOWN_ID

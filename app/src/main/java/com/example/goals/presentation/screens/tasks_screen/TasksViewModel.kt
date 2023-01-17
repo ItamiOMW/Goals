@@ -18,7 +18,7 @@ import javax.inject.Inject
 class TasksViewModel @Inject constructor(
     private val completeTaskUseCase: CompleteTaskUseCase,
     private val completeSubTaskUseCase: CompleteSubTaskUseCase,
-    private val getTasksByDateUseCase: GetTasksByDateUseCase
+    private val getTasksByDateUseCase: GetTasksByDateUseCase,
 ) : ViewModel() {
 
     var state by mutableStateOf(TasksState())
@@ -58,7 +58,7 @@ class TasksViewModel @Inject constructor(
 
     private fun getTasksByDate(date: String) {
         viewModelScope.launch {
-            getTasksByDateUseCase(date).collect { list ->
+            getTasksByDateUseCase(date = date).collect { list ->
                 state = state.copy(listTasksByDate = list)
             }
         }

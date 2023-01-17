@@ -8,14 +8,16 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class GetTasksByDateUseCase @Inject constructor(
-    private val repository: TasksRepository,
+class GetTasksByDateAndCompletenessUseCase @Inject constructor(
+    private val repository: TasksRepository
 ) {
+
     operator fun invoke(
         taskOrder: TaskOrder = TaskOrder.Time(OrderType.Ascending),
+        isCompleted: Boolean,
         date: String,
     ): Flow<List<Task>> {
-        return repository.getTasksByDate(date).map { tasks ->
+        return repository.getTasksByDateAndCompleteness(date, isCompleted).map { tasks ->
             when (taskOrder.orderType) {
                 is OrderType.Ascending -> {
                     when (taskOrder) {

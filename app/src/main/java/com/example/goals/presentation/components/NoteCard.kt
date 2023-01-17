@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils
 import com.example.goals.domain.models.Note
+import com.example.goals.presentation.ui.theme.Typography
 
 
 @Composable
@@ -62,7 +63,7 @@ fun NoteCard(
         ) {
             Text(
                 text = note.title,
-                style = MaterialTheme.typography.h6,
+                style = Typography.h6,
                 color = MaterialTheme.colors.onSurface,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
@@ -70,7 +71,7 @@ fun NoteCard(
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = note.content,
-                style = MaterialTheme.typography.body1,
+                style = Typography.body1,
                 color = MaterialTheme.colors.onSurface,
                 maxLines = 10,
                 overflow = TextOverflow.Ellipsis

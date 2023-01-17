@@ -18,7 +18,7 @@ interface TasksDao {
     fun getTasksByDate(date: String): Flow<List<Task>>
 
     @Query("SELECT * FROM tasks_table WHERE scheduledDate=:date AND isCompleted=:isCompleted")
-    fun getUncompletedTasksByDate(date: String, isCompleted: Boolean = false): Flow<List<Task>>
+    fun getTasksByDateAndCompleteness(date: String, isCompleted: Boolean = false): Flow<List<Task>>
 
     @Query("SELECT * FROM tasks_table WHERE id=:id LIMIT 1")
     fun getTaskById(id: Int): Flow<Task?>

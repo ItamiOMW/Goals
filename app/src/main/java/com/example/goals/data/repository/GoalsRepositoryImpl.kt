@@ -19,6 +19,12 @@ class GoalsRepositoryImpl @Inject constructor(
         return dao.getGoalById(id)
     }
 
+    override fun getGoalsByCompleteness(
+        isCompleted: Boolean,
+    ): Flow<List<Goal>> {
+        return dao.getGoalsByDateAndCompleteness(isCompleted = isCompleted)
+    }
+
     override suspend fun addGoal(goal: Goal) {
         dao.addGoal(goal)
     }
