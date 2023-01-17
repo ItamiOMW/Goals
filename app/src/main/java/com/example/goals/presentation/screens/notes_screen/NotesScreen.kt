@@ -77,7 +77,8 @@ fun NotesScreen(
         Spacer(modifier = Modifier.height(23.dp))
         Text(
             text = "${state.notesList.size} ${stringResource(R.string.notes_capitals)}",
-            style = TextStyle(color = Color.Gray,
+            style = TextStyle(
+                color = TextWhite,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.SemiBold,
                 fontFamily = fonts),
