@@ -6,6 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import com.example.goals.R
 import com.example.goals.utils.formatTimeToLong
 import java.util.Calendar.*
 
@@ -30,6 +31,7 @@ fun TimePickerDialog(
 
     val timePickerDialog = TimePickerDialog(
         context,
+        R.style.DialogTheme,
         { tp, hour: Int, minute: Int ->
             onTimePicked(formatTimeToLong(hour, minute))
         },

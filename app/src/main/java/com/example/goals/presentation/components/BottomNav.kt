@@ -1,6 +1,8 @@
 package com.example.goals.presentation.components
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -15,7 +17,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.goals.presentation.ui.theme.Blue
 import com.example.goals.presentation.ui.theme.Gray
 import com.example.goals.presentation.ui.theme.GrayShadeLight
-import com.example.goals.presentation.ui.theme.PurpleLight
 
 
 @Composable
@@ -52,7 +53,7 @@ fun BottomNavigationBar(
                                 Icon(
                                     painter = painterResource(id = item.iconId),
                                     contentDescription = item.name,
-                                    tint = if (selected) PurpleLight else Color.Transparent,
+                                    tint = if (selected) Blue else Color.Gray,
                                     modifier = Modifier.size(20.dp)
                                 )
                             }
@@ -60,6 +61,7 @@ fun BottomNavigationBar(
                             Icon(
                                 painter = painterResource(id = item.iconId),
                                 contentDescription = item.name,
+                                tint = if (selected) Blue else Color.Gray,
                                 modifier = Modifier.size(20.dp)
                             )
                         }

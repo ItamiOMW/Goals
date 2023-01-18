@@ -1,8 +1,9 @@
-package com.example.goals.presentation
+package com.example.goals.presentation.screens
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -38,11 +39,58 @@ import kotlinx.coroutines.launch
 @ExperimentalMaterialApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+
+    private val viewModel: MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
         setContent {
             GoalsTheme {
+
+                val bottomNavBarItems = listOf(
+                    NavigationItem(
+                        name = "Home",
+                        route = Destination.HomeScreen.route,
+                        iconId = drawable.home,
+                        viewModel.uncompletedTasksAmount ?: 0
+                    ),
+                    NavigationItem(
+                        name = "Tasks",
+                        route = Destination.TasksScreen.route,
+                        iconId = drawable.list_check,
+                    ),
+                    NavigationItem(
+                        name = "Goals",
+                        route = Destination.GoalsScreen.route,
+                        iconId = drawable.goal,
+                    ),
+                    NavigationItem(
+                        name = "Notes",
+                        route = Destination.NotesScreen.route,
+                        iconId = drawable.notes,
+                    )
+
+                )
+
+                val bottomSheetItems = listOf(
+                    NavigationItem(
+                        name = "Task",
+                        route = Destination.AddEditTaskScreen.route,
+                        iconId = drawable.task
+                    ),
+                    NavigationItem(
+                        name = "Goal",
+                        route = Destination.AddEditGoalScreen.route,
+                        iconId = drawable.goal
+                    ),
+                    NavigationItem(
+                        name = "Note",
+                        route = Destination.AddEditNoteScreen.route,
+                        iconId = drawable.edit
+                    )
+                )
+
                 val navController = rememberNavController()
 
                 val bottomSheetState = rememberModalBottomSheetState(
@@ -72,7 +120,7 @@ class MainActivity : ComponentActivity() {
                                         .padding(10.dp),
                                     horizontalArrangement = Arrangement.SpaceAround
                                 ) {
-                                    listForBottomSheet.forEach { item ->
+                                    bottomSheetItems.forEach { item ->
                                         Column(modifier = Modifier
                                             .padding(5.dp)
                                             .clickable {
@@ -143,10 +191,13 @@ class MainActivity : ComponentActivity() {
                                     backgroundColor = GrayShadeLight
                                 ) {
                                     BottomNavigationBar(
-                                        items = listForBottomNav,
+                                        items = bottomNavBarItems,
                                         navController = navController,
                                         onItemClick = { bottomItem ->
-                                            navController.navigate(bottomItem.route)
+                                            navController.navigate(bottomItem.route) {
+                                                launchSingleTop
+                                                popUpTo(Destination.HomeScreen.route)
+                                            }
                                         }
                                     )
                                 }
@@ -181,50 +232,5 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-    }
-
-    companion object {
-
-        val listForBottomSheet = listOf(
-            NavigationItem(
-                name = "Task",
-                route = Destination.AddEditTaskScreen.route,
-                iconId = drawable.task
-            ),
-            NavigationItem(
-                name = "Goal",
-                route = Destination.AddEditGoalScreen.route,
-                iconId = drawable.goal
-            ),
-            NavigationItem(
-                name = "Note",
-                route = Destination.AddEditNoteScreen.route,
-                iconId = drawable.edit
-            )
-        )
-
-        val listForBottomNav = listOf(
-            NavigationItem(
-                name = "Home",
-                route = Destination.HomeScreen.route,
-                iconId = drawable.home,
-            ),
-            NavigationItem(
-                name = "Tasks",
-                route = Destination.TasksScreen.route,
-                iconId = drawable.list_check,
-            ),
-            NavigationItem(
-                name = "Goals",
-                route = Destination.GoalsScreen.route,
-                iconId = drawable.goal,
-            ),
-            NavigationItem(
-                name = "Notes",
-                route = Destination.NotesScreen.route,
-                iconId = drawable.notes,
-            )
-
-        )
     }
 }
