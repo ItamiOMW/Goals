@@ -128,6 +128,7 @@ fun AddEditGoalScreen(
                         fontWeight = FontWeight.Bold,
                         fontSize = 20.sp
                     ),
+                    singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                     color = goalColorState
                 )

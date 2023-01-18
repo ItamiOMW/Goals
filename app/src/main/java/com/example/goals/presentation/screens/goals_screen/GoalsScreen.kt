@@ -125,13 +125,12 @@ fun GoalsScreen(
                     color = Color.Gray,
                     modifier = Modifier.fillMaxWidth()
                 )
-                Spacer(modifier = Modifier.height(5.dp))
+                Spacer(modifier = Modifier.height(10.dp))
                 if (state.goalSection == GoalSection.AchievedGoalsSection) {
                     if (state.achievedGoals.isNotEmpty()) {
                         LazyVerticalGrid(
                             columns = GridCells.Fixed(2),
                             verticalArrangement = Arrangement.SpaceEvenly,
-                            contentPadding = PaddingValues(start = 7.5.dp, end = 7.5.dp),
                             modifier = Modifier.padding(bottom = 55.dp)
                         ) {
                             items(state.achievedGoals.size) { i ->
@@ -164,7 +163,6 @@ fun GoalsScreen(
                         LazyVerticalGrid(
                             columns = GridCells.Fixed(2),
                             verticalArrangement = Arrangement.SpaceEvenly,
-                            contentPadding = PaddingValues(start = 7.5.dp, end = 7.5.dp),
                             modifier = Modifier.padding(bottom = 55.dp)
                         ) {
                             items(state.notAchievedGoals.size) { i ->

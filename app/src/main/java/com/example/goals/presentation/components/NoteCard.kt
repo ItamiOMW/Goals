@@ -2,7 +2,6 @@ package com.example.goals.presentation.components
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -12,12 +11,16 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.clipPath
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.graphics.ColorUtils
 import com.example.goals.domain.models.Note
-import com.example.goals.presentation.ui.theme.Typography
+import com.example.goals.presentation.ui.theme.fonts
 
 
 @Composable
@@ -63,16 +66,28 @@ fun NoteCard(
         ) {
             Text(
                 text = note.title,
-                style = Typography.h6,
-                color = MaterialTheme.colors.onSurface,
+                style = TextStyle(
+                    color = Color.Black,
+                    fontFamily = fonts,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 22.sp,
+                    textAlign = TextAlign.Center
+                ),
+                color = Color.Black,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = note.content,
-                style = Typography.body1,
-                color = MaterialTheme.colors.onSurface,
+                style = TextStyle(
+                    color = Color.Black,
+                    fontFamily = fonts,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 14.sp,
+                    textAlign = TextAlign.Center
+                ),
+                color = Color.Black,
                 maxLines = 10,
                 overflow = TextOverflow.Ellipsis
             )

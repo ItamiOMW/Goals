@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.goals.R
-import com.example.goals.presentation.components.TaskBigCard
+import com.example.goals.presentation.components.TaskCard
 import com.example.goals.presentation.navigation.Destination
 import com.example.goals.presentation.screens.home_screen.components.TaskOrderSection
 import com.example.goals.presentation.screens.home_screen.components.TaskSection
@@ -132,7 +132,7 @@ fun HomeScreen(
                 if (state.todaysUncompletedTasks.isNotEmpty()) {
                     LazyColumn() {
                         items(state.todaysUncompletedTasks.size) { i ->
-                            TaskBigCard(
+                            TaskCard(
                                 modifier = Modifier
                                     .padding(
                                         start = 10.dp,
@@ -180,7 +180,7 @@ fun HomeScreen(
                 if (state.todaysCompletedTasks.isNotEmpty()) {
                     LazyColumn() {
                         items(state.todaysCompletedTasks.size) { i ->
-                            TaskBigCard(
+                            TaskCard(
                                 modifier = Modifier
                                     .padding(
                                         start = 10.dp,
