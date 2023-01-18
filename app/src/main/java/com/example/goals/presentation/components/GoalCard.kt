@@ -60,10 +60,9 @@ fun GoalCard(
                     textDecoration = if (goal.isReached) TextDecoration.LineThrough else null,
                     textAlign = TextAlign.Center
                 ),
-                overflow = TextOverflow.Clip,
-                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 3,
                 modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
                     .align(Alignment.CenterHorizontally)
             )
             Spacer(modifier = Modifier.height(6.dp))

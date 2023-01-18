@@ -4,6 +4,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
@@ -21,6 +22,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.ColorUtils
 import com.example.goals.domain.models.Note
 import com.example.goals.presentation.ui.theme.fonts
+import com.example.goals.utils.stringDateToFormatted
 
 
 @Composable
@@ -88,8 +90,21 @@ fun NoteCard(
                     textAlign = TextAlign.Center
                 ),
                 color = Color.Black,
-                maxLines = 10,
                 overflow = TextOverflow.Ellipsis
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = note.date.stringDateToFormatted(),
+                style = TextStyle(
+                    color = Color.Black,
+                    fontFamily = fonts,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 10.sp,
+                    textAlign = TextAlign.End
+                ),
+                color = Color.Black,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.fillMaxWidth().align(Alignment.End)
             )
         }
     }

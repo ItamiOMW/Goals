@@ -52,6 +52,18 @@ fun formatTimeToLong(hour: Int, minute: Int): Long {
     return LocalTime.of(hour, minute).toSecondOfDay().toLong()
 }
 
+fun String.stringDateToFormatted(): String {
+    val dateFormatter = DateTimeFormatter.ofPattern(DATE_FORMAT)
+    val localDateLong = LocalDate.parse(this, dateFormatter)
+    val dayOfWeek =
+        localDateLong.dayOfWeek.getDisplayName(TextStyle.FULL_STANDALONE, Locale.getDefault())
+            .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+    val dayOfMonth = localDateLong.dayOfMonth.toString()
+    val month = localDateLong.month.getDisplayName(TextStyle.FULL_STANDALONE, Locale.getDefault())
+        .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+    return "$dayOfWeek, $dayOfMonth $month"
+}
+
 fun getCurrentDateStringFormatted(): String {
     val localDateLong = LocalDate.now()
     val dayOfWeek =
