@@ -156,7 +156,8 @@ fun AddEditTaskScreen(
                         fontSize = 20.sp
                     ),
                     modifier = Modifier.fillMaxWidth(),
-                    color = colorState
+                    color = colorState,
+                    singleLine = true,
                 )
                 if (chosenSubTaskIndex != null) {
                     Icon(

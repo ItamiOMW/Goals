@@ -23,7 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.goals.R
 import com.example.goals.presentation.components.Calendar
-import com.example.goals.presentation.components.TaskBigCard
+import com.example.goals.presentation.components.TaskCard
 import com.example.goals.presentation.navigation.Destination
 import com.example.goals.presentation.ui.theme.fonts
 
@@ -43,7 +43,7 @@ fun TasksScreen(
                 modifier = Modifier
             ) {
                 items(state.listTasksByDate.size) { i ->
-                    TaskBigCard(
+                    TaskCard(
                         task = state.listTasksByDate[i],
                         onSubTaskIconCheckClick = { subTask, task ->
                             viewModel.onEvent(TasksEvent.OnCompleteSubTask(task, subTask))

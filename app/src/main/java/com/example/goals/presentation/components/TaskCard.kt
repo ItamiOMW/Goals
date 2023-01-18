@@ -15,6 +15,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.goals.R.drawable
@@ -26,7 +27,7 @@ import com.example.goals.utils.timeSecondsToString
 
 
 @Composable
-fun TaskBigCard(
+fun TaskCard(
     modifier: Modifier = Modifier,
     task: Task,
     onSubTaskIconCheckClick: (SubTask, Task) -> Unit,
@@ -64,6 +65,8 @@ fun TaskBigCard(
                         else TextDecoration.None,
                         textAlign = TextAlign.Center
                     ),
+                    overflow = TextOverflow.Clip,
+                    maxLines = 1,
                     modifier = Modifier.align(Alignment.CenterVertically)
                 )
             }
