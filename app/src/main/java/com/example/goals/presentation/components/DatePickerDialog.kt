@@ -6,6 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import com.example.goals.R
 import com.example.goals.utils.formatDateToString
 import java.util.*
 
@@ -25,7 +26,9 @@ fun DatePickerDialog(
 
     val context = LocalContext.current
 
-    val datePicker = android.app.DatePickerDialog(context,
+    val datePicker = android.app.DatePickerDialog(
+        context,
+        R.style.DialogTheme,
         { _: DatePicker, mYear: Int, mMonth: Int, mDayOfMonth: Int ->
             onDatePicked.invoke(formatDateToString(mDayOfMonth, mMonth + 1, mYear))
         },

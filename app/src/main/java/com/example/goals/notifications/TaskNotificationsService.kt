@@ -5,7 +5,7 @@ import android.content.Intent
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.core.app.NotificationCompat
 import com.example.goals.R
-import com.example.goals.presentation.MainActivity
+import com.example.goals.presentation.screens.MainActivity
 import javax.inject.Inject
 
 class TaskNotificationsService @Inject constructor (
