@@ -22,6 +22,10 @@
  - [Coroutines](https://developer.android.com/kotlin/coroutines)
  
  - [Splash Screen Api](https://developer.android.com/develop/ui/views/launch/splash-screen)
+ 
+ - [ViewPager](https://google.github.io/accompanist/pager/)
+  
+ - [AlarmManager](https://developer.android.com/reference/android/app/AlarmManager)
 
 
 ## Screenshots
