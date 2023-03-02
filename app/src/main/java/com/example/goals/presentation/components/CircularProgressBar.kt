@@ -5,6 +5,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -15,16 +16,14 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.example.goals.presentation.ui.theme.GrayShadeDark
-import com.example.goals.presentation.ui.theme.GrayShadeLight
 
 
 @Composable
 fun CircularProgressBar(
     percentage: Float,
     radius: Dp = 50.dp,
-    color: Color = GrayShadeDark,
-    secondColor: Color = GrayShadeLight,
+    color: Color = MaterialTheme.colors.primary,
+    secondColor: Color = MaterialTheme.colors.secondary,
     strokeWidth: Dp = 8.dp,
     animDuration: Int = 1000,
     animDelay: Int = 0,

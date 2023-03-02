@@ -2,6 +2,7 @@ package com.example.goals.presentation.components
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -12,16 +13,12 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.clipPath
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.core.graphics.ColorUtils
 import com.example.goals.domain.models.Note
-import com.example.goals.presentation.ui.theme.fonts
 import com.example.goals.utils.stringDateToFormatted
 
 
@@ -68,41 +65,29 @@ fun NoteCard(
         ) {
             Text(
                 text = note.title,
-                style = TextStyle(
-                    color = Color.Black,
-                    fontFamily = fonts,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 22.sp,
+                style = MaterialTheme.typography.h5.copy(
                     textAlign = TextAlign.Center
                 ),
-                color = Color.Black,
+                color = MaterialTheme.colors.primary,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = note.content,
-                style = TextStyle(
-                    color = Color.Black,
-                    fontFamily = fonts,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 14.sp,
+                style = MaterialTheme.typography.body2.copy(
                     textAlign = TextAlign.Center
                 ),
-                color = Color.Black,
+                color = MaterialTheme.colors.primary,
                 overflow = TextOverflow.Ellipsis
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = note.date.stringDateToFormatted(),
-                style = TextStyle(
-                    color = Color.Black,
-                    fontFamily = fonts,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 10.sp,
+                style = MaterialTheme.typography.overline.copy(
                     textAlign = TextAlign.End
                 ),
-                color = Color.Black,
+                color = MaterialTheme.colors.primary,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.fillMaxWidth().align(Alignment.End)
             )

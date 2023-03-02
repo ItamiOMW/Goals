@@ -4,7 +4,7 @@ import com.example.goals.domain.models.Note
 import com.example.goals.domain.repository.NotesRepository
 import com.example.goals.domain.utils.order.NoteOrder
 import com.example.goals.domain.utils.order.OrderType
-import com.example.goals.utils.formatDateToLong
+import com.example.goals.utils.formatDateToMillis
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -18,13 +18,13 @@ class GetNotesUseCase @Inject constructor(
             when(noteOrder.orderType) {
                 is OrderType.Ascending -> {
                     when(noteOrder) {
-                        is NoteOrder.Date -> notes.sortedBy { it.date.formatDateToLong() }
+                        is NoteOrder.Date -> notes.sortedBy { it.date.formatDateToMillis() }
                         is NoteOrder.Title -> notes.sortedBy { it.title.lowercase() }
                     }
                 }
                 is OrderType.Descending -> {
                     when(noteOrder) {
-                        is NoteOrder.Date -> notes.sortedByDescending { it.date.formatDateToLong() }
+                        is NoteOrder.Date -> notes.sortedByDescending { it.date.formatDateToMillis() }
                         is NoteOrder.Title -> notes.sortedByDescending { it.title.lowercase() }
                     }
                 }

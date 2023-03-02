@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.sp
 import com.example.goals.R
 
 
-val fonts = FontFamily(
+val customFonts = FontFamily(
     Font(R.font.gothica1_black, weight = FontWeight.Black),
     Font(R.font.gothica1_regular, weight = FontWeight.Normal),
     Font(R.font.gothica1_bold, weight = FontWeight.Bold),
@@ -18,8 +18,8 @@ val fonts = FontFamily(
 )
 
 
-val Typography = Typography(
-    defaultFontFamily = fonts,
+val CustomTypography = Typography(
+    defaultFontFamily = customFonts,
     h1 = TextStyle(
         fontWeight = FontWeight.Light,
         fontSize = 96.sp,

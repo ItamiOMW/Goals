@@ -3,6 +3,7 @@ package com.example.goals.utils
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.*
@@ -38,10 +39,11 @@ fun String.formatDate(): String {
     return "$dayOfMonth $month, $year"
 }
 
-fun String.formatDateToLong(): Long {
+fun String.formatDateToMillis(): Long {
     val dateFormatter = DateTimeFormatter.ofPattern(DATE_FORMAT)
     val date = LocalDate.parse(this, dateFormatter)
-    return "${date.year}${date.monthValue}${date.dayOfMonth}".toLong()
+    val zoneId = ZoneId.systemDefault()
+    return date.atStartOfDay(zoneId).toEpochSecond() * 1000
 }
 
 fun formatDateToString(dayOfMonth: Int, month: Int, year: Int): String {

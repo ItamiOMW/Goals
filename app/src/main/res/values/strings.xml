@@ -3,8 +3,8 @@
     <string name="ic_time">Icon Time</string>
     <string name="checkbox">Checkbox</string>
     <string name="no_scheduled_todays_tasks">No scheduled tasks for today</string>
-    <string name="tasks_upcoming">TASKS UPCOMING</string>
-    <string name="completed">completed</string>
+    <string name="tasks_upcoming">%s TASKS UPCOMING</string>
+    <string name="completed_of_count">%s of %s completed</string>
     <string name="goals">GOALS</string>
     <string name="of">of</string>
     <string name="no_goals">No goals, it\'s time to set a couple</string>
@@ -12,7 +12,7 @@
     <string name="main_add_button_desc">Button that shows dialog with options of screen to open</string>
     <string name="hide_bottom_sheet">Hide bottom sheet</string>
     <string name="notes">Notes</string>
-    <string name="notes_capitals">NOTES</string>
+    <string name="notes_count">%s NOTES</string>
     <string name="enter_title">Enter title...</string>
     <string name="enter_content">Enter content...</string>
     <string name="title_cant_be_empty">Title can\'t be empty</string>
@@ -84,7 +84,7 @@
     <string name="task_deleted">Task Deleted</string>
     <string name="task">Task</string>
     <string name="delete_task_desc">Delete task</string>
-    <string name="tasks_completed">TASKS COMPLETED</string>
+    <string name="tasks_completed">%s TASKS COMPLETED</string>
     <string name="sort_by">Sort by:</string>
     <string name="no_completed_tasks_for_today">No completed tasks for today</string>
     <string name="sort_by_time">Time</string>
@@ -94,7 +94,9 @@
     <string name="descending">Descending</string>
     <string name="sort_icon_desc">Sort icon</string>
     <string name="no_scheduled_tasks_this_day">No scheduled tasks for this day</string>
-    <string name="goals_in_progress">GOALS IN PROGRESS</string>
-    <string name="goals_achieved">GOALS ACHIEVED</string>
+    <string name="goals_in_progress">%s GOALS IN PROGRESS</string>
+    <string name="goals_achieved">%s GOALS ACHIEVED</string>
     <string name="no_achieved_goals">No achieved goals</string>
+    <string name="home">Home</string>
+    <string name="tasks">Tasks</string>
 </resources>
