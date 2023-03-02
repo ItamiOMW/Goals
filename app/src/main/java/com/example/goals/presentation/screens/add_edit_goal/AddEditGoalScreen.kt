@@ -355,7 +355,7 @@ fun AddEditGoalScreen(
                                         bottomSheetState.show()
                                     }
                                 },
-                            textStyle = MaterialTheme.typography.h5.copy(
+                            textStyle = MaterialTheme.typography.body1.copy(
                                 color = goalColorState,
                                 textDecoration = if (subGoalsState[i].isCompleted) {
                                     TextDecoration.LineThrough
