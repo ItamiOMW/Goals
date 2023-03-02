@@ -14,7 +14,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
-import com.example.goals.presentation.ui.theme.TextWhite
+import com.example.goals.presentation.ui.theme.White
 
 
 @Composable
@@ -22,7 +22,7 @@ fun ColorBox(
     size: Float = 50f,
     shape: Shape = CircleShape,
     color: Color,
-    borderColor: Color = TextWhite,
+    borderColor: Color = White,
     onColorBoxClick: (Color) -> Unit,
 ) {
     Box(

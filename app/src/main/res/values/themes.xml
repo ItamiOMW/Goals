@@ -9,4 +9,9 @@
         <item name="colorAccent">#2F3640</item>
     </style>
 
+
+    <style name="CalendarViewCustom" parent="Theme.AppCompat">
+        <item name="colorAccent">#1A2026</item>
+    </style>
+
 </resources>

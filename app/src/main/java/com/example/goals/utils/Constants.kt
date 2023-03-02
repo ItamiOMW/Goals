@@ -13,7 +13,7 @@ val listOfColors = listOf(
     BabyBlue,
     Pink,
     Purple,
-    TextWhite,
+    White,
     PurpleLight,
     Blue,
     Violet,

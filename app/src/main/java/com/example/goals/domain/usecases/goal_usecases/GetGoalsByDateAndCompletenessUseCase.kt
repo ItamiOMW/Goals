@@ -4,7 +4,7 @@ import com.example.goals.domain.models.Goal
 import com.example.goals.domain.repository.GoalsRepository
 import com.example.goals.domain.utils.order.GoalOrder
 import com.example.goals.domain.utils.order.OrderType
-import com.example.goals.utils.formatDateToLong
+import com.example.goals.utils.formatDateToMillis
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -21,13 +21,13 @@ class GetGoalsByDateAndCompletenessUseCase @Inject constructor(
             when (goalOrder.orderType) {
                 is OrderType.Ascending -> {
                     when (goalOrder) {
-                        is GoalOrder.Date -> goals.sortedBy { it.startDate.formatDateToLong() }
+                        is GoalOrder.Date -> goals.sortedBy { it.startDate.formatDateToMillis() }
                         is GoalOrder.Title -> goals.sortedBy { it.title.lowercase() }
                     }
                 }
                 is OrderType.Descending -> {
                     when (goalOrder) {
-                        is GoalOrder.Date -> goals.sortedByDescending { it.startDate.formatDateToLong() }
+                        is GoalOrder.Date -> goals.sortedByDescending { it.startDate.formatDateToMillis() }
                         is GoalOrder.Title -> goals.sortedByDescending { it.title.lowercase() }
                     }
                 }
