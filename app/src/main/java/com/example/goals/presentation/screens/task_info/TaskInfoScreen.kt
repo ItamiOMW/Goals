@@ -1,7 +1,6 @@
 package com.example.goals.presentation.screens.task_info
 
 import android.widget.Toast
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -91,16 +90,22 @@ fun TaskInfoScreen(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.arrow_left),
-                            contentDescription = stringResource(id = R.string.arrow_go_back_desc),
+                        IconButton(
                             modifier = Modifier
                                 .size(25.dp)
-                                .align(Alignment.CenterVertically)
-                                .clickable {
-                                    navController.popBackStack()
-                                }
-                        )
+                                .align(Alignment.CenterVertically),
+                            onClick = {
+                                navController.popBackStack()
+                        }
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.arrow_left),
+                                contentDescription = stringResource(id = R.string.arrow_go_back_desc),
+                                modifier = Modifier
+                                    .size(25.dp)
+                                    .align(Alignment.CenterVertically)
+                            )
+                        }
                         Text(
                             text = stringResource(R.string.task),
                             style = MaterialTheme.typography.h6,
@@ -110,59 +115,71 @@ fun TaskInfoScreen(
                         Row(
                             modifier = Modifier
                         ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.edit),
-                                contentDescription = stringResource(R.string.edit_goal),
+                            IconButton(
                                 modifier = Modifier
                                     .size(30.dp)
-                                    .align(Alignment.CenterVertically)
-                                    .clickable {
-                                        navController.navigate(
-                                            Screen.AddEditTaskScreen.getRouteWithArgs(
-                                                currentTask.id
-                                            ),
-                                        ) {
-                                            navController.currentDestination?.id?.let {
-                                                popUpTo(
-                                                    it
-                                                ) {
-                                                    saveState = true
-                                                }
+                                    .align(Alignment.CenterVertically),
+                                onClick = {
+                                    navController.navigate(
+                                        Screen.AddEditTaskScreen.getRouteWithArgs(
+                                            currentTask.id
+                                        ),
+                                    ) {
+                                        navController.currentDestination?.id?.let {
+                                            popUpTo(
+                                                it
+                                            ) {
+                                                saveState = true
                                             }
-                                            launchSingleTop = true
-                                            restoreState = true
                                         }
+                                        launchSingleTop = true
+                                        restoreState = true
                                     }
-                            )
+                            }
+                            ) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.edit),
+                                    contentDescription = stringResource(R.string.edit_goal),
+                                    modifier = Modifier
+                                        .size(30.dp)
+                                        .align(Alignment.CenterVertically)
+                                )
+                            }
                             Spacer(modifier = Modifier.width(10.dp))
-                            Icon(
-                                painter = painterResource(id = R.drawable.trash),
-                                contentDescription = stringResource(R.string.delete_task_desc),
+                            IconButton(
                                 modifier = Modifier
                                     .size(28.dp)
-                                    .align(Alignment.CenterVertically)
-                                    .clickable {
-                                        customSheetContent = {
-                                            BottomSheetContentDeleteTask(
-                                                taskColor = taskColor,
-                                                deleteButtonClicked = {
-                                                    bottomSheetScope.launch {
-                                                        viewModel.onEvent(TaskInfoEvent.DeleteTask)
-                                                        bottomSheetState.hide()
-                                                    }
-                                                },
-                                                cancelButtonClicked = {
-                                                    bottomSheetScope.launch {
-                                                        bottomSheetState.hide()
-                                                    }
+                                    .align(Alignment.CenterVertically),
+                                onClick = {
+                                    customSheetContent = {
+                                        BottomSheetContentDeleteTask(
+                                            taskColor = taskColor,
+                                            deleteButtonClicked = {
+                                                bottomSheetScope.launch {
+                                                    viewModel.onEvent(TaskInfoEvent.DeleteTask)
+                                                    bottomSheetState.hide()
                                                 }
-                                            )
-                                        }
-                                        bottomSheetScope.launch {
-                                            bottomSheetState.show()
-                                        }
+                                            },
+                                            cancelButtonClicked = {
+                                                bottomSheetScope.launch {
+                                                    bottomSheetState.hide()
+                                                }
+                                            }
+                                        )
                                     }
-                            )
+                                    bottomSheetScope.launch {
+                                        bottomSheetState.show()
+                                    }
+                            }
+                            ) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.trash),
+                                    contentDescription = stringResource(R.string.delete_task_desc),
+                                    modifier = Modifier
+                                        .size(28.dp)
+                                        .align(Alignment.CenterVertically)
+                                )
+                            }
                         }
                     }
                 }
@@ -252,7 +269,7 @@ fun TaskInfoScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                 ) {
-                    Row() {
+                    Row {
                         Column(
                             modifier = Modifier
                                 .weight(1f)
@@ -481,7 +498,7 @@ private fun BottomSheetContentDeleteTask(
             color = taskColor,
         )
         Spacer(modifier = Modifier.height(15.dp))
-        Row() {
+        Row {
             Button(
                 onClick = {
                     cancelButtonClicked()

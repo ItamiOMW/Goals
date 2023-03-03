@@ -6,10 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Divider
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,17 +43,23 @@ fun NotesScreen(
                 style = MaterialTheme.typography.h6,
                 color = MaterialTheme.colors.onBackground,
             )
-            Icon(
-                painter = painterResource(id = R.drawable.sort),
-                contentDescription = stringResource(R.string.sort_icon_desc),
-                tint = MaterialTheme.colors.onBackground,
+            IconButton(
                 modifier = Modifier
                     .size(25.dp)
-                    .align(Alignment.CenterVertically)
-                    .clickable {
-                        viewModel.onEvent(NotesEvent.ToggleOrderSection)
-                    }
-            )
+                    .align(Alignment.CenterVertically),
+                onClick = {
+                    viewModel.onEvent(NotesEvent.ToggleOrderSection)
+                }
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.sort),
+                    contentDescription = stringResource(R.string.sort_icon_desc),
+                    tint = MaterialTheme.colors.onBackground,
+                    modifier = Modifier
+                        .size(25.dp)
+                        .align(Alignment.CenterVertically)
+                )
+            }
         }
         AnimatedVisibility(
             visible = state.isOrderSectionVisible,
@@ -88,8 +91,8 @@ fun NotesScreen(
         )
         Spacer(modifier = Modifier.height(10.dp))
         if (state.notesList.isNotEmpty()) {
-            LazyColumn() {
-                items(state.notesList, key = {it.id}) { note ->
+            LazyColumn {
+                items(state.notesList, key = { it.id }) { note ->
                     NoteCard(
                         note = note,
                         modifier = Modifier

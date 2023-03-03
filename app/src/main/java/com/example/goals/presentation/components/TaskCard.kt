@@ -1,9 +1,9 @@
 package com.example.goals.presentation.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -36,20 +36,26 @@ fun TaskCard(
                 horizontalArrangement = Arrangement.Center,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Icon(
-                    tint = Color.Black,
-                    painter = painterResource(
-                        id = if (task.isCompleted) drawable.checkbox
-                        else drawable.checkbox_empty
-                    ),
-                    contentDescription = stringResource(string.checkbox),
+                IconButton(
                     modifier = Modifier
                         .size(20.dp)
-                        .align(Alignment.CenterVertically)
-                        .clickable {
-                            onTaskIconCheckClick(task)
-                        }
-                )
+                        .align(Alignment.CenterVertically),
+                    onClick = {
+                        onTaskIconCheckClick(task)
+                    }
+                ) {
+                    Icon(
+                        tint = Color.Black,
+                        painter = painterResource(
+                            id = if (task.isCompleted) drawable.checkbox
+                            else drawable.checkbox_empty
+                        ),
+                        contentDescription = stringResource(string.checkbox),
+                        modifier = Modifier
+                            .size(20.dp)
+                            .align(Alignment.CenterVertically)
+                    )
+                }
                 Spacer(modifier = Modifier.width(10.dp))
                 Text(
                     text = task.title,

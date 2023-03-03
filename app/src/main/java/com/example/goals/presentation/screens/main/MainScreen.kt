@@ -205,10 +205,10 @@ private fun MainBottomSheetContent(
                 bottomSheetNavItems.forEach { item ->
                     Column(
                         modifier = Modifier
-                            .padding(5.dp)
                             .clickable {
                                 onNavigate(item)
-                            },
+                            }
+                            .padding(5.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Icon(

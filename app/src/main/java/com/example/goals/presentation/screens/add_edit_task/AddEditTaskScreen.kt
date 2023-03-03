@@ -74,7 +74,7 @@ fun AddEditTaskScreen(
         mutableStateOf(false)
     }
 
-    Scaffold() {
+    Scaffold {
         it
         DatePickerDialog(
             showDialog = showDialog,
@@ -144,20 +144,26 @@ fun AddEditTaskScreen(
                     singleLine = true,
                 )
                 if (chosenSubTaskIndex != null) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.trash),
-                        contentDescription = stringResource(id = R.string.delete_current_subtask_desc),
+                    IconButton(
                         modifier = Modifier
                             .padding(5.dp)
                             .size(25.dp)
-                            .align(Alignment.End)
-                            .clickable {
-                                viewModel.onEvent(AddEditTaskEvent.DeleteSubTask(chosenSubTaskIndex))
-                                bottomSheetCoroutineScope.launch {
-                                    bottomSheetState.hide()
-                                }
+                            .align(Alignment.End),
+                        onClick = {
+                            viewModel.onEvent(AddEditTaskEvent.DeleteSubTask(chosenSubTaskIndex))
+                            bottomSheetCoroutineScope.launch {
+                                bottomSheetState.hide()
                             }
-                    )
+                        }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.trash),
+                            contentDescription = stringResource(id = R.string.delete_current_subtask_desc),
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                                .size(25.dp)
+                        )
+                    }
                 }
                 Button(
                     onClick = {
@@ -194,32 +200,44 @@ fun AddEditTaskScreen(
                     .padding(top = 28.dp, start = 8.dp, end = 8.dp, bottom = 20.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.arrow_left),
-                    contentDescription = stringResource(id = R.string.arrow_go_back_desc),
+                IconButton(
                     modifier = Modifier
                         .size(25.dp)
-                        .align(Alignment.CenterVertically)
-                        .clickable {
-                            navController.popBackStack()
-                        }
-                )
+                        .align(Alignment.CenterVertically),
+                    onClick = {
+                        navController.popBackStack()
+                    }
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.arrow_left),
+                        contentDescription = stringResource(id = R.string.arrow_go_back_desc),
+                        modifier = Modifier
+                            .size(25.dp)
+                            .align(Alignment.CenterVertically)
+                    )
+                }
                 Text(
                     text = if (taskId == UNKNOWN_ID) stringResource(R.string.add_task)
                     else stringResource(R.string.edit_task),
                     style = MaterialTheme.typography.h6,
                     color = MaterialTheme.colors.onBackground,
                 )
-                Icon(
-                    painter = painterResource(id = R.drawable.ready_mark),
-                    contentDescription = stringResource(id = R.string.save_goal_desc),
+                IconButton(
                     modifier = Modifier
                         .size(37.dp)
-                        .align(Alignment.CenterVertically)
-                        .clickable {
-                            viewModel.onEvent(AddEditTaskEvent.SaveTask)
-                        }
-                )
+                        .align(Alignment.CenterVertically),
+                    onClick = {
+                        viewModel.onEvent(AddEditTaskEvent.SaveTask)
+                    }
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ready_mark),
+                        contentDescription = stringResource(id = R.string.save_goal_desc),
+                        modifier = Modifier
+                            .size(37.dp)
+                            .align(Alignment.CenterVertically)
+                    )
+                }
             }
             Row(
                 modifier = Modifier
@@ -326,7 +344,7 @@ fun AddEditTaskScreen(
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                Row() {
+                Row {
                     Column(
                         modifier = Modifier
                             .clickable {
@@ -418,32 +436,39 @@ fun AddEditTaskScreen(
                         style = MaterialTheme.typography.h5,
                         color = colorState
                     )
-                    Icon(painter = painterResource(
-                        id = R.drawable.ic_add
-                    ),
-                        contentDescription = stringResource(R.string.add_new_subtask_desc),
+                    IconButton(
                         modifier = Modifier
                             .size(35.dp)
-                            .align(Alignment.CenterVertically)
-                            .clickable {
-                                viewModel.onEvent(AddEditTaskEvent.SubTaskItemSelected(null))
-                                viewModel.onEvent(
-                                    AddEditTaskEvent.BottomSheetTextChange(
-                                        EMPTY_STRING
-                                    )
+                            .align(Alignment.CenterVertically),
+                        onClick = {
+                            viewModel.onEvent(AddEditTaskEvent.SubTaskItemSelected(null))
+                            viewModel.onEvent(
+                                AddEditTaskEvent.BottomSheetTextChange(
+                                    EMPTY_STRING
                                 )
-                                bottomSheetCoroutineScope.launch {
-                                    bottomSheetState.show()
-                                }
+                            )
+                            bottomSheetCoroutineScope.launch {
+                                bottomSheetState.show()
                             }
-                    )
+                        }
+                    ) {
+                        Icon(
+                            painter = painterResource(
+                                id = R.drawable.ic_add
+                            ),
+                            contentDescription = stringResource(R.string.add_new_subtask_desc),
+                            modifier = Modifier
+                                .size(35.dp)
+                                .align(Alignment.CenterVertically)
+                        )
+                    }
                 }
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
                         .wrapContentHeight()
                 ) {
-                    subTasksState.forEachIndexed() { i, subTask ->
+                    subTasksState.forEachIndexed { i, subTask ->
                         SubTask(
                             subTask = subTask,
                             onCheckBoxClick = {

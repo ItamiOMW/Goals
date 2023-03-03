@@ -117,20 +117,27 @@ fun AddEditGoalScreen(
                     modifier = Modifier.fillMaxWidth(),
                 )
                 if (chosenSubGoalIndex != null) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.trash),
-                        contentDescription = stringResource(id = R.string.delete_current_subgoal_desc),
+                    IconButton(
                         modifier = Modifier
                             .padding(5.dp)
                             .size(25.dp)
-                            .align(Alignment.End)
-                            .clickable {
-                                viewModel.onEvent(AddEditGoalEvent.DeleteSubGoal(chosenSubGoalIndex))
-                                bottomSheetCoroutineScope.launch {
-                                    bottomSheetState.hide()
-                                }
+                            .align(Alignment.End),
+                        onClick = {
+                            viewModel.onEvent(AddEditGoalEvent.DeleteSubGoal(chosenSubGoalIndex))
+                            bottomSheetCoroutineScope.launch {
+                                bottomSheetState.hide()
                             }
-                    )
+                        }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.trash),
+                            contentDescription = stringResource(id = R.string.delete_current_subgoal_desc),
+                            modifier = Modifier
+                                .padding(5.dp)
+                                .size(25.dp)
+                                .align(Alignment.End)
+                        )
+                    }
                 }
                 Button(
                     onClick = {
@@ -167,32 +174,44 @@ fun AddEditGoalScreen(
                     .padding(top = 28.dp, start = 8.dp, end = 8.dp, bottom = 20.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.arrow_left),
-                    contentDescription = stringResource(id = R.string.arrow_go_back_desc),
+                IconButton(
                     modifier = Modifier
                         .size(25.dp)
-                        .align(Alignment.CenterVertically)
-                        .clickable {
-                            navController.popBackStack()
-                        }
-                )
+                        .align(Alignment.CenterVertically),
+                    onClick = {
+                        navController.popBackStack()
+                    }
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.arrow_left),
+                        contentDescription = stringResource(id = R.string.arrow_go_back_desc),
+                        modifier = Modifier
+                            .size(25.dp)
+                            .align(Alignment.CenterVertically)
+                    )
+                }
                 Text(
                     text = if (goalId == UNKNOWN_ID) stringResource(R.string.add_goal)
                     else stringResource(id = R.string.edit_goal),
                     style = MaterialTheme.typography.h6,
                     color = MaterialTheme.colors.onPrimary,
                 )
-                Icon(
-                    painter = painterResource(id = R.drawable.ready_mark),
-                    contentDescription = stringResource(id = R.string.save_goal_desc),
+                IconButton(
                     modifier = Modifier
                         .size(37.dp)
-                        .align(Alignment.CenterVertically)
-                        .clickable {
-                            viewModel.onEvent(AddEditGoalEvent.SaveGoal)
-                        }
-                )
+                        .align(Alignment.CenterVertically),
+                    onClick = {
+                        viewModel.onEvent(AddEditGoalEvent.SaveGoal)
+                    }
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ready_mark),
+                        contentDescription = stringResource(id = R.string.save_goal_desc),
+                        modifier = Modifier
+                            .size(37.dp)
+                            .align(Alignment.CenterVertically)
+                    )
+                }
             }
             Row(
                 modifier = Modifier
@@ -309,25 +328,32 @@ fun AddEditGoalScreen(
                         style = MaterialTheme.typography.h5,
                         color = goalColorState,
                     )
-                    Icon(painter = painterResource(
-                        id = R.drawable.ic_add
-                    ),
-                        contentDescription = stringResource(id = R.string.add_new_subgoal),
+                    IconButton(
                         modifier = Modifier
                             .size(35.dp)
-                            .align(Alignment.CenterVertically)
-                            .clickable {
-                                viewModel.onEvent(AddEditGoalEvent.SubGoalItemSelected(null))
-                                viewModel.onEvent(
-                                    AddEditGoalEvent.BottomSheetTextChanged(
-                                        EMPTY_STRING
-                                    )
+                            .align(Alignment.CenterVertically),
+                        onClick = {
+                            viewModel.onEvent(AddEditGoalEvent.SubGoalItemSelected(null))
+                            viewModel.onEvent(
+                                AddEditGoalEvent.BottomSheetTextChanged(
+                                    EMPTY_STRING
                                 )
-                                bottomSheetCoroutineScope.launch {
-                                    bottomSheetState.show()
-                                }
+                            )
+                            bottomSheetCoroutineScope.launch {
+                                bottomSheetState.show()
                             }
-                    )
+                        }
+                    ) {
+                        Icon(
+                            painter = painterResource(
+                                id = R.drawable.ic_add
+                            ),
+                            contentDescription = stringResource(id = R.string.add_new_subgoal),
+                            modifier = Modifier
+                                .size(35.dp)
+                                .align(Alignment.CenterVertically)
+                        )
+                    }
                 }
                 Column(
                     modifier = Modifier

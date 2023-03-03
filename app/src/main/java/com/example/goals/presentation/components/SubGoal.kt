@@ -1,8 +1,8 @@
 package com.example.goals.presentation.components
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,20 +27,26 @@ fun SubGoal(
         modifier = modifier,
         horizontalArrangement = Arrangement.Start
     ) {
-        Icon(
-            tint = textStyle.color,
-            painter = painterResource(
-                id = if (subGoal.isCompleted) R.drawable.checkbox
-                else R.drawable.checkbox_empty
-            ),
-            contentDescription = stringResource(R.string.checkbox),
+        IconButton(
             modifier = Modifier
                 .size(20.dp)
-                .clickable {
-                    onCheckBoxClick(subGoal)
-                }
-                .align(Alignment.CenterVertically)
-        )
+                .align(Alignment.CenterVertically),
+            onClick = {
+                onCheckBoxClick(subGoal)
+            }
+        ) {
+            Icon(
+                tint = textStyle.color,
+                painter = painterResource(
+                    id = if (subGoal.isCompleted) R.drawable.checkbox
+                    else R.drawable.checkbox_empty
+                ),
+                contentDescription = stringResource(R.string.checkbox),
+                modifier = Modifier
+                    .size(20.dp)
+                    .align(Alignment.CenterVertically)
+            )
+        }
         Spacer(modifier = Modifier.width(8.dp))
         Text(
             text = subGoal.title,

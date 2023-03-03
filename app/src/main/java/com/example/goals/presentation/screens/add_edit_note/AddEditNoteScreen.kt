@@ -1,13 +1,13 @@
 package com.example.goals.presentation.screens.add_edit_note
 
 import android.widget.Toast
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -69,32 +69,46 @@ fun AddEditNoteScreen(
                 .padding(top = 28.dp, start = 8.dp, end = 8.dp, bottom = 20.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Icon(
-                painter = painterResource(id = R.drawable.arrow_left),
-                contentDescription = stringResource(id = R.string.arrow_go_back_desc),
+            IconButton(
                 modifier = Modifier
                     .size(25.dp)
-                    .align(Alignment.CenterVertically)
-                    .clickable {
-                        navController.popBackStack()
-                    }
-            )
+                    .align(Alignment.CenterVertically),
+                onClick = {
+                    navController.popBackStack()
+                }
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.arrow_left),
+                    contentDescription = stringResource(id = R.string.arrow_go_back_desc),
+                    modifier = Modifier
+                        .size(25.dp)
+                        .align(Alignment.CenterVertically)
+                )
+            }
+
             Text(
                 text = if (noteId == UNKNOWN_ID) stringResource(R.string.add_note)
                 else stringResource(R.string.edit_note),
                 style = MaterialTheme.typography.h6,
                 color = MaterialTheme.colors.onBackground
             )
-            Icon(
-                painter = painterResource(id = R.drawable.ready_mark),
-                contentDescription = stringResource(R.string.save_note_desc),
+            IconButton(
                 modifier = Modifier
                     .size(37.dp)
-                    .align(Alignment.CenterVertically)
-                    .clickable {
-                        viewModel.onEvent(AddEditNoteEvent.SaveNote)
-                    }
-            )
+                    .align(Alignment.CenterVertically),
+                onClick = {
+                    viewModel.onEvent(AddEditNoteEvent.SaveNote)
+                }
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ready_mark),
+                    contentDescription = stringResource(R.string.save_note_desc),
+                    modifier = Modifier
+                        .size(37.dp)
+                        .align(Alignment.CenterVertically)
+                )
+            }
+
         }
         Row(
             modifier = Modifier

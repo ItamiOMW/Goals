@@ -3,10 +3,7 @@ package com.example.goals.presentation.screens.home
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Divider
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -131,17 +128,23 @@ fun HomeScreen(
                     style = MaterialTheme.typography.h5,
                     color = MaterialTheme.colors.onBackground,
                 )
-                Icon(
-                    painter = painterResource(id = R.drawable.sort),
-                    contentDescription = stringResource(R.string.sort_icon_desc),
-                    tint = MaterialTheme.colors.onBackground,
+                IconButton(
                     modifier = Modifier
                         .size(25.dp)
-                        .align(Alignment.CenterVertically)
-                        .clickable {
-                            viewModel.onEvent(HomeEvent.ToggleOrderSection)
-                        }
-                )
+                        .align(Alignment.CenterVertically),
+                    onClick = {
+                        viewModel.onEvent(HomeEvent.ToggleOrderSection)
+                    }
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.sort),
+                        contentDescription = stringResource(R.string.sort_icon_desc),
+                        tint = MaterialTheme.colors.onBackground,
+                        modifier = Modifier
+                            .size(25.dp)
+                            .align(Alignment.CenterVertically)
+                    )
+                }
             }
             AnimatedVisibility(
                 visible = state.isOrderSectionVisible,
@@ -171,7 +174,7 @@ fun HomeScreen(
                 homeTabs.forEachIndexed { index, tabItem ->
                     Text(
                         text = tabItem.title,
-                        style =  MaterialTheme.typography.body2.copy(
+                        style = MaterialTheme.typography.body2.copy(
                             color = if (pagerState.currentPage == index)
                                 MaterialTheme.colors.onBackground else MaterialTheme.colors.secondaryVariant,
                         ),
